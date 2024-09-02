@@ -39,5 +39,5 @@ weight = 2
 
 [[menu.main]]
 name = "About me"
-url = "https://pierrebeaujean.net"
+url = "/about/"
 weight = 3
