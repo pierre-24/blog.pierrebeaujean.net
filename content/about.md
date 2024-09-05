@@ -25,7 +25,7 @@ I also have knowledges in HTML, CSS, and Javascript.
 
 I have developed different projects over the years, mostly to help me during my scientific carrier.
 
-### Active projects:
+### Active scientific projects:
 
 + [`cp2k-basis`](https://github.com/pierre-24/cp2k-basis), a library to parse CP2K basis sets and GTH pseudopotentials, which also comes with a [web service](https://cp2k-basis.pierrebeaujean.net/) to find out and select a basis set and its matching pseudopotential for your CP2K calculations.
 + [`ec-interface`](https://github.com/pierre-24/ec-interface), a set of tools to create electrochemical interface calculations (for VASP).
@@ -40,7 +40,7 @@ I have developed different projects over the years, mostly to help me during my 
 
 ### Active non-scientific projects:
 
-+ The [website](https://github.com/pierre-24/AM-Nihoul-website) of the [Association Anne-Marie Nihoul](https://annemarienihoul.be/), a non-profit organisation to help financially and psychologically cancer patients.
++ [`AM-Nihoul-website`](https://github.com/pierre-24/AM-Nihoul-website), the website of the [Association Anne-Marie Nihoul](https://annemarienihoul.be/), a non-profit organisation to help financially and psychologically cancer patients.
 + [`pics.pierrebeaujean.net)`](https://github.com/pierre-24/pics.pierrebeaujean.net), my own gallery generator for <https://pics.pierrebeaujean.net>.
 + [`pierrebeaujean.net`](https://github.com/pierre-24/pierrebeaujean.net), the code that generate my CV, located at <https://pierrebeaujean.net>.
 + [`pytimefliplib`](https://github.com/pierre-24/pytimefliplib), a python library to deal with [TimeFlip](https://timeflip.io/) v3 and v4.
