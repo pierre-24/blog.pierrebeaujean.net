@@ -93,7 +93,7 @@ The sum extend over the set of **unique** energy levels, and thus $g_m$ is the d
 Then, we just use the expressions coming from statistical mechanics.
 The internal (thermal) energy, $U$, at a given temperature is given by:
 
-$$ U = \braket{E} = \frac{1}{Q(T)}\ \sum_n g_n\ \varepsilon_n\ e^{-\beta(T)\ \varepsilon_n}  = -\frac{\partial}{\partial\beta}\ln[Q(t)],$$
+$$ U = \braket{E} = \frac{1}{Q(T)}\ \sum_n g_n\ \varepsilon_n\ e^{-\varepsilon_n\beta}  = -\frac{\partial}{\partial\beta}\ln[Q(t)],$$
 
 while the entropy, $S$, is given by:
 
@@ -103,6 +103,15 @@ where $U_0$ is obtained for $T=0$.
 
 Combining those two quantities gives the [Helmholtz free energy](https://en.wikipedia.org/wiki/Helmholtz_free_energy) given by $A = U -TS = -k_BT\ln[Q(T)]$.
 If one assume the pressure change to be negligible, this is equivalent to the [Gibbs free energy](https://en.wikipedia.org/wiki/Helmholtz_free_energy).
+
+For example, let's consider the **free rotor** (FR), using the solution given in (2), but where the boundary conditions $\Psi(\theta) = \Psi(\theta + \frac{2\pi}{k})$ have been used. 
+The partition function is then given by:
+
+$$Q_{FR}(T) = \sum_{m\in\mathbb{Z}} k\ \exp\left[-\sigma\beta m^2\right], \text{ with } \sigma = \frac{k^2\hbar^2}{2I_r},$$
+
+According to [10.1016/0009-2614(94)87058-6](https://dx.doi.org/10.1016/0009-2614(94)87058-6), if $\sigma$ is sufficiently large, one can approximate the partition function by computing the integral over $m$:
+
+$$Q_{FR}(T) =  \int_{-\infty}^\infty \exp\left[-\sigma\ m^2\beta\right]\ dm = \sqrt{\frac{\pi}{\sigma\beta}} = \sqrt{\frac{2\pi k_B T\ I_r}{k^2\hbar^2}}.$$
 
 ## Appplication: a simple $k$-fold potential
 
