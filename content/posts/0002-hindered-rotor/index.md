@@ -26,7 +26,7 @@ Indeed, it possess an low-lying internal rotation mode located around 40 cm⁻¹
 
 ![](vib_Fc.gif)
 
-**Figure:** visualization of the he rotational mode of Ferrocene (located at 31.87 cm⁻¹) as computed at the ωB97X-D/6-311G* level in DMSO (SMD).
+**Figure:** visualization of the rotational mode of Ferrocene (located at 31.87 cm⁻¹) as computed at the ωB97X-D/6-311G* level in DMSO (SMD).
 
 While there are different article on the subject, few of them goes into the nitty gritty of treating this correction.
 In this blog post, I explore the approach proposed in [10.1007/s00214-007-0376-5](https://dx.doi.org/10.1007/s00214-007-0376-5) to correctly account for [hindered rotation](https://doi.org/10.1351/goldbook.F02520) (when the barrier is comparable to $k_BT$).
@@ -45,12 +45,11 @@ $$\tag{1}\left[-\frac{\hbar^2}{2I_r}\frac{d^2}{d\theta^2} + V(\theta)\right]\The
 where $I_r$ is the reduced moment of inertia of the rotating tops (see below), and $V(\theta)$ is the rotational hindrance potential, *e.g.*, the potential energy surface for the rotation, given by $\theta\in[0,2\pi]$.
 
 Note that if $V(\theta)=0$, this correspond to the case of a [particle in a ring](https://en.wikipedia.org/wiki/Particle_in_a_ring). 
-Provided that we use the boundary conditions $\Theta(\theta) = \Theta(\theta + \frac{2\pi}{\sigma})$, the solutions are given by:
+Provided that we use the boundary conditions $\Theta(\theta) = \Theta(\theta + 2\pi)$, the solutions are given by:
 
-$$\tag{2}\Theta_{m}(\theta)=\frac{1}{\sqrt{2\pi}} e^{im\theta} \text{ and } E_m = \frac{m^2\sigma^2\hbar^2}{2I_r},$$
+$$\tag{2}\Theta_{m}(\theta)=\frac{1}{\sqrt{2\pi}} e^{im\theta} \text{ and } E_m = \frac{m^2\hbar^2}{2I_r},$$
 
-where $m\in\mathbb{Z}$ is a quantum number, and $\sigma\in\mathbb{N}_0$ is the rotational symmetry number, which accounts for orientation that interchanges identical atoms.
-For example, in ethane, a rotation of 120° around the C-C left the molecule unchanged, so $\sigma=3$.
+where $m\in\mathbb{Z}$ is a quantum number, and 
 
 ### The reduced moment of inertia, $I_r$
 
@@ -145,12 +144,13 @@ If one assume the pressure change to be negligible, this is equivalent to the [G
 For example, let's consider a 1D **free rotor** (FR), using the solution given in Eq. (2). 
 The partition function is then given by:
 
-$$Q_{FR}(T) = \sum_{m\in\mathbb{Z}} e^{-B\sigma^2\beta m^2}, \text{ with } B = \frac{\hbar^2}{2I_r}.$$
+$$Q_{FR}(T) = \frac{1}{\sigma} \sum_{m\in\mathbb{Z}} e^{-B\beta m^2}, \text{ with } B = \frac{\hbar^2}{2I_r}.$$
 
-where $B$ is the [rotational constant](https://en.wikipedia.org/wiki/Rigid_rotor#Quantum_mechanical_linear_rigid_rotor) of the rotor.
-According to [10.1016/0009-2614(94)87058-6](https://dx.doi.org/10.1016/0009-2614(94)87058-6), if $B\sigma^2\beta$ is sufficiently small (large temperature and/or large $I_r$), one can approximate the partition function by computing the integral over $m$:
+where $B$ is the [rotational constant](https://en.wikipedia.org/wiki/Rigid_rotor#Quantum_mechanical_linear_rigid_rotor) of the rotor, and $\sigma\in\mathbb{N}_0$ is the rotational symmetry number, which accounts for orientation that interchanges identical atoms.
+For example, in ethane, a rotation of 120° around the C-C left the molecule unchanged, so $\sigma=3$.
+According to [10.1016/0009-2614(94)87058-6](https://dx.doi.org/10.1016/0009-2614(94)87058-6) (see also [10.1021/ed082p1703](https://dx.doi.org/10.1021/ed082p1703)), if $B\beta$ is sufficiently small (large temperature and/or large $I_r$), one can approximate the partition function by computing the integral over $m$:
 
-$$Q_{FR}(T) =  \int_{-\infty}^\infty e^{-B\sigma^2\beta m^2}\ dm = \sqrt{\frac{\pi}{B\sigma^2\beta}} = \sqrt{\frac{2\pi k_B T\ I_r}{\sigma^2\hbar^2}}.$$
+$$Q_{FR}(T) =  \frac{1}{\sigma} \int_{-\infty}^\infty e^{-B\beta m^2}\ dm = \sqrt{\frac{\pi}{B\sigma^2\beta}} = \sqrt{\frac{2\pi k_B T\ I_r}{\sigma^2\hbar^2}}.$$
 
 Therefore,
 
@@ -177,10 +177,10 @@ $$V(\theta)=\frac{V_0}{2}\ [1 - \cos(\sigma\theta)],$$
 where $\sigma$ thus corresponds to the number of minima/maxima in the potential.
 Note that what is following could be easily extended to a more general Fourrier series, as done, *e.g.*, in [RMG-Py](https://github.com/ReactionMechanismGenerator/RMG-Py).
 
-In that case, according to [10.1063/1.475616](https://dx.doi.org/10.1063/1.475616), an approximate barrier can be estimated from the vibrational frequency of the mode, $\nu$ (in s⁻¹).
-Using $\theta = \theta_0\cos(2\pi\nu t)$ and assuming a [torsional harmonic oscillator](https://en.wikipedia.org/wiki/Torsion_spring#Torsional_harmonic_oscillators) (*i.e.*, $I_r\ddot{\theta}+\kappa\theta =0$), one gets:
+In that case, according to [10.1021/ed077p1495](https://dx.doi.org/10.1021/ed077p1495), an approximate barrier can be estimated from the vibrational frequency of the mode, $\nu_{vib}$ (in s⁻¹).
+Using a Taylor expansion of $V(\theta)$ around $\theta = 0$, one gets:
 
-$$I_r\ \frac{d^2\theta}{dt^2}+ \frac{V_0\sigma^2}{2} \theta = 0 \Leftrightarrow V_0 = \frac{2\nu^2I_r}{\sigma^2\hbar^2}.$$
+$$V_0' = \frac{2\nu_{vib}^2I_r}{\sigma^2\hbar^2}.$$
 
 ### Solving the 1-DHR
 
@@ -215,6 +215,116 @@ H_{mn} &=\braket{\Theta_m|\hat H|\Theta_n}\\\\
 
 Here, $m, n \in\mathbb{Z}$ are not the position in the matrix, but the quantum numbers of the basis functions.
 In practice, we will chose $-M \leq m,n \leq M$, so that $H$ contains $2M+1$ basis functions, and thus columns and rows.
+Once the set of $\\{\varepsilon_n\\}$ energies have been obtained, the partition function is given by:
+
+$$Q_{HR}(T) = \frac{1}{\sigma}\sum_{-M\leq n \leq M} e^{-\beta\ \varepsilon_n}.$$
+
+Again, this can be easily extended to any $V(\theta)$ described using a Fourrier series.
+
+### Application to ethane
+
+The application of what we have seen above to any molecule requires 5 steps:
+
+1. from a vibrational frequency calculation, determination of the internal rotation modes,
+2. for each mode, determination of the barrier, $V_0$ (either from the vibrational calculation, $V_0'$, or using a scan),
+3. determination of the reduced inertia moment, and
+4. determination of the energy levels,  $\\{\varepsilon_n\\}$, from the HR model, and
+5. calculation of the different thermodynamical quantities. 
+
+Concerning the first step, for ethane, an internal rotation is found around 300 cm⁻¹:
+
+![](vib_ethane.gif)
+
+**Figure:** visualization of the low-lying rotational mode of ethane (located at 310.08 cm⁻¹) as computed at the ωB97X-D/6-311G* level in gas phase, after an optimization at the same level.
+
+A quick estimate of the rotation barrier is provided by $V_0'$ = 11.96 kJ mol⁻¹, which is actually not bad at all (according to [10.1021/ed082p1703](https://dx.doi.org/10.1021/ed082p1703), this barrier is located, experimentally, around 12 kJ mol⁻¹).
+We can also extract a better estimate from the relaxed scan (see above):
+
+![](ethane_scan.svg)
+
+**Figure:** fit (plain line) of the scan (dots, from the data available [here](./ethane_scan.csv) shifted by 60°) around the C-C bond, using $\sigma=3$. The barrier is estimated to a bit smaller.
+
+Concerning the inertia moment, a bit of trigonometry is sufficient in this case ;)
+
+![](ethane_measurments.png)
+
+$I_L$ = $I_R$ = $3\times 1.008 \times [1.093 \sin(180°-111.37°)]^2$ = 3.132 AMU  Å², and therefore $I_r$ = $\frac{1}{2}I_L$ = 1.566 AMU  Å².
+
+For the two last steps, I have written a [small python code](hindered_rotor.py) called `hindered_rotor.py` (note that $M=200$).
+It gives the following result:
+
+```text
+$ python ./hindered_rotor.py -I 1.566 -b 11.17 -f 310.08 -s 3
+From frequency, estimated barrier is 11.958 kJ mol⁻¹
+Corrections at T=298.15 K
+======================
+   U   0.1531 kJ mol⁻¹
+-T*S  -0.5046 kJ mol⁻¹    S = 1.6926 J mol⁻¹ K⁻¹
+----------------------
+   A  -0.3515 kJ mol⁻¹
+======================
+```
+
+As you can see, the inputs are the reduced inertia moment (in AMU  Å²), the barrier (in kJ mol⁻¹), the vibrational frequency (in cm⁻¹), and $\sigma$.
+It predicts that if the mode located at 310 cm⁻¹ is described by a QHO, then, one should apply a correction of -0.35 kJ mol⁻¹ to the free Helmotz energy to account for the hindered rotation.
+
+It should be noted that Gaussian provides a keyword to perform the analysis, [`freq=HinderedRotor`](https://gaussian.com/freq/). 
+Provided that it recognize the rotation (this is not the case for ferrocene), it also propose different correction. 
+For example, for ethane, we obtain:
+
+```text
+ --------------------------------------------------
+ - Thermochemistry For Hindered Internal Rotation -
+ --------------------------------------------------
+ Temperature    298.150 Kelvin. Pressure    1.00000 Atm.
+
+                           Q                Freq               V/RT
+                      (Free Rot.)         (cm**-1)
+ Vibration     1          2.593           310.084             4.793
+
+ Corrections for hindered rotation 
+ To obtain partition function for hindered rotation :
+                     Multiply with harmonic oscillator partition function
+ To obtain thermodynamic function for hindered rotation :
+                     Add to harmonic oscillator partition function
+
+                          Q(harm. osc.) =       0.610
+ Q(hin.)/Q(harm. osc.)   Truhlar        Pitzer & Gwinn       McClurg 
+ Vibration     1          0.999             1.074             1.105
+ Multiplicity             1.000             1.000             1.000
+ Total                    0.999             1.074             1.105
+
+                          E(harm. osc.) =       0.699 Kcal/mol
+ E(hin.)-E(harm. osc.)   Truhlar        Pitzer & Gwinn       McClurg 
+                        Kcal/mol          Kcal/mol          Kcal/mol
+ Vibration     1         -0.002             0.054             0.037
+ Total                   -0.002             0.054             0.037
+
+                          S(harm. osc.) =       1.362 cal/mol-Kelvin
+ S(hin.)-S(harm. osc.)   Truhlar        Pitzer & Gwinn       McClurg 
+                       cal/mol-Kelvin    cal/mol-Kelvin    cal/mol-Kelvin
+ Vibration     1         -0.008             0.324             0.324
+ Multiplicity             0.000             0.000             0.000
+ Total                   -0.008             0.324             0.324
+```
+
+Since no barrier is provided here (note that it is possible with `freq=ReadHinderedRotor`), it uses the estimate, 11.96 kJ mol⁻¹.
+Different estimate are provided, which are described in [10.1063/1.475616](https://doi.org/10.1063/1.475616), but `Pitzer & Gwinn` should give more correct results than my script.
+Using slightly improved values for the inertia (and thus the default barrier) gives:
+
+```text
+$ python ./hindered_rotor.py -I 1.5674 -b 11.969 -s 3 -f 310.084 
+From frequency, estimated barrier is 11.969 kJ mol⁻¹
+Corrections at T=298.15 K
+======================
+   U   0.1684 kJ mol⁻¹
+-T*S  -0.4042 kJ mol⁻¹    S = 1.3557 J mol⁻¹ K⁻¹
+----------------------
+   A  -0.2358 kJ mol⁻¹
+======================
+```
+
+While the estimate for $S$ is similar, my $U$ is a bit too small.
 
 ## Some literature
 
