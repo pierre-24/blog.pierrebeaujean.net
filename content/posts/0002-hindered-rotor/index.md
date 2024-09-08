@@ -1,7 +1,7 @@
 ---
 title: "Hindered rotor correction in thermochemistry"
 date: 2024-09-05T19:00:00+02:00
-draft: true
+draft: false
 tldr: while small, a correct treatment of hindered rotation might be required in some situations.
 tags: 
 - lang:en
