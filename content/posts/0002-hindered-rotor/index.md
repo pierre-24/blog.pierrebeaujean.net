@@ -8,96 +8,94 @@ tags:
 - quantum chemistry
 ---
 
-When computing thermochemical values for molecules in gas (or, with some approximation, condensed) phase, we generally split the $3N$ degree of freedom into 3 rotational modes, 3 translational modes (or 2 if the molecule is linear) and the remaining $3N-6$ [vibrational](https://en.wikipedia.org/wiki/Molecular_vibration) modes (or $3N-5$ if the molecule is linear).
-The laters are generally treated using [(quantum) harmonic oscillators](https://en.wikipedia.org/wiki/Quantum_harmonic_oscillator) (QHOs).
-This induces different issues, such as the lack of hanarmonicity, or the one I'm interested here, the fact that it describes a single minimum for this mode.
+When computing thermochemical values for molecules in the gas phase (or, with some approximation, the condensed phase), we generally split the $3N$ degrees of freedom into 3 rotational modes, 3 translational modes (or 2 if the molecule is linear), and the remaining $3N-6$ [vibrational](https://en.wikipedia.org/wiki/Molecular_vibration) modes (or $3N-5$ if the molecule is linear).
 
-Indeed, we learn pretty quickly in organic chemistry lectures that given a certain amount of energy, a single bond can rotate from one minima to another.
-For example, in ethane, there are 3 stable minima, or staggered conformation.
+The latter are typically treated using [(quantum) harmonic oscillators](https://en.wikipedia.org/wiki/Quantum_harmonic_oscillator) (QHOs). 
+This treatment introduces various issues, such as the lack of anharmonicity and, most relevant to the topic at hand, the fact that it describes only a single minimum for each mode.
 
-![](https://switkes.chemistry.ucsc.edu/teaching/CHEM1B/RotationalConformation/images/1.2_ethane.gif)
+In organic chemistry, we quickly learn that, with sufficient energy, a single bond can rotate between multiple minima. 
+For example, in ethane, there are three stable minima, known as staggered conformations.
 
-**Figure:** the different conformations of ethane ([source](https://switkes.chemistry.ucsc.edu/teaching/CHEM1B/RotationalConformation/Conformations_of_ethane.html)).
+![Ethane Conformations](https://switkes.chemistry.ucsc.edu/teaching/CHEM1B/RotationalConformation/images/1.2_ethane.gif)
 
-When the barrier is lower or comparable to the [characteristic energy](https://en.wikipedia.org/wiki/KT_(energy)) ($k_BT$), the system can (more or less freely) move from one minima to another, and describing this "vibration" with a QHO (in which the system is confined in a single minima) is thus incorrect.
+**Figure:** The different conformations of ethane ([source](https://switkes.chemistry.ucsc.edu/teaching/CHEM1B/RotationalConformation/Conformations_of_ethane.html)).
 
-This is the case for most C-C bonds as presented above, but it might also be the case for other molecules, such as the one I was interested in when I bump in this topic, [ferrocene](https://en.wikipedia.org/wiki/Ferrocene).
-Indeed, it possess an low-lying internal rotation mode located around 40 cm⁻¹.
+When the energy barrier is lower than or comparable to the [characteristic thermal energy](https://en.wikipedia.org/wiki/KT_(energy)) ($k_BT$), the system can move more or less freely between minima. 
+Therefore, describing this "vibration" with a QHO, which confines the system to a single minimum, becomes inaccurate.
 
-![](vib_Fc.gif)
+This issue is especially relevant for most C–C bonds, as in the ethane example, but it also applies to other molecules. 
+One notable example, and the one that brought me to this topic, is [ferrocene](https://en.wikipedia.org/wiki/Ferrocene). Ferrocene has a low-lying internal rotation mode around 40 cm⁻¹.
 
-**Figure:** visualization of the rotational mode of Ferrocene (located at 31.87 cm⁻¹) as computed at the ωB97X-D/6-311G* level in DMSO (SMD).
+![Ferrocene Vibration](vib_Fc.gif)
 
-While there are different article on the subject, few of them goes into the nitty gritty of treating this correction.
-In this blog post, I explore the approach proposed in [10.1007/s00214-007-0376-5](https://dx.doi.org/10.1007/s00214-007-0376-5) to correctly account for [hindered rotation](https://doi.org/10.1351/goldbook.F02520) (when the barrier is comparable to $k_BT$).
+**Figure:** Visualization of the rotational mode of ferrocene (located at 31.87 cm⁻¹) as computed at the ωB97X-D/6-311G* level in DMSO (SMD).
 
-Note that this has been treated by Pitzer and Gwinn in 1942, which provided reference tables (see [10.1063/1.1723744](https://dx.doi.org/10.1063/1.1723744)), used since then in many articles and programs.
+While there are several articles addressing this issue, few delve into the detailed treatment of this correction. 
+In this blog post, I explore the approach proposed in [10.1007/s00214-007-0376-5](https://dx.doi.org/10.1007/s00214-007-0376-5) for properly accounting for [hindered rotation](https://doi.org/10.1351/goldbook.F02520) when the barrier is comparable to $k_BT$.
+
+This correction was originally treated by Pitzer and Gwinn in 1942, who provided reference tables (see [10.1063/1.1723744](https://dx.doi.org/10.1063/1.1723744)), which have since been used in many articles and computational programs.
 
 ## Theory
 
-### The 1D-hindered rotor (1-DHR) model
+### The 1D-Hindered Rotor (1D-HR) Model
 
-Like most problems in quantum physics, the one of treating internal rotations is *hard*, which means that we can only provide approximate solutions.
-One of such is to assume uncoupled rotations, and to model the problem by assuming the rotation of two counter-rotating [tops](https://en.wikipedia.org/wiki/Spinning_top) around an axis (generally, a single bond), treated in practice with an effective one-dimensional Hamiltonian:
+Solving the problem of internal rotations in quantum physics is inherently complex, often requiring approximations. One common approach is to assume uncoupled rotations and model the system as two counter-rotating [tops](https://en.wikipedia.org/wiki/Spinning_top) around an axis—typically a single bond—using an effective one-dimensional Hamiltonian:
 
 $$\tag{1}\left[-\frac{\hbar^2}{2I_r}\frac{d^2}{d\theta^2} + V(\theta)\right]\Theta(\theta)  = E\ \Theta(\theta)$$
 
-where $I_r$ is the reduced moment of inertia of the rotating tops (see below), and $V(\theta)$ is the rotational hindrance potential, *e.g.*, the potential energy surface for the rotation, given by $\theta\in[0,2\pi]$.
+Here, $I_r$ is the reduced moment of inertia of the rotating tops (discussed below), and $V(\theta)$ represents the rotational hindrance potential, such as the potential energy surface for the rotation, with $\theta \in [0, 2\pi]$.
 
-Note that if $V(\theta)=0$, this correspond to the case of a [particle in a ring](https://en.wikipedia.org/wiki/Particle_in_a_ring). 
-Provided that we use the boundary conditions $\Theta(\theta) = \Theta(\theta + 2\pi)$, the solutions are given by:
+If $V(\theta) = 0$, this simplifies to the [particle on a ring](https://en.wikipedia.org/wiki/Particle_in_a_ring) model. Using the boundary condition $\Theta(\theta) = \Theta(\theta + 2\pi)$, the solutions are given by:
 
-$$\tag{2}\Theta_{m}(\theta)=\frac{1}{\sqrt{2\pi}} e^{im\theta} \text{ and } E_m = \frac{m^2\hbar^2}{2I_r},$$
+$$\tag{2}\Theta_{m}(\theta)=\frac{1}{\sqrt{2\pi}} e^{im\theta} \quad \text{and} \quad E_m = \frac{m^2\hbar^2}{2I_r},$$
 
-where $m\in\mathbb{Z}$ is a quantum number, and 
+where $m \in \mathbb{Z}$ is the quantum number.
 
-### The reduced moment of inertia, $I_r$
+### The Reduced Moment of Inertia, $I_r$
 
-The [moment of inertia](https://en.wikipedia.org/wiki/Moment_of_inertia) is the relevant quantity when dealing with rotation, as it is a measure on how "difficult" it is to rotate a body around a given axis.
-It is thus the equivalent of the mass in the linear movements (*i.e.*, [inertia](https://en.wikipedia.org/wiki/Inertia)). 
+In rotational dynamics, the [moment of inertia](https://en.wikipedia.org/wiki/Moment_of_inertia) describes how difficult it is to rotate an object around a given axis, analogous to mass in linear motion. 
+In the context of internal rotations, we are interested in the *reduced* moment of inertia.
 
-Following section 6.6 of [10.1007/978-3-030-52006-9](https://dx.doi.org/10.1007/978-3-030-52006-9), if we consider the rotational motion of two symmetric tops (one at the left, $L$, and the other at the right, $R$) around a common rotational axis (*e.g.*, the methyl groups in ethane), we can write an expression for the kinetic energy,
+Referring to Section 6.6 of [this reference](https://dx.doi.org/10.1007/978-3-030-52006-9), for two symmetric tops rotating about a common axis (e.g., the methyl groups in ethane), the rotational kinetic energy can be written as:
 
-$$T_{rot} = \frac{1}{2}(I_L\omega_L^2+I_R\omega_R^2),$$
+$$T_{rot} = \frac{1}{2}(I_L\omega_L^2 + I_R\omega_R^2),$$
 
-where the $I$'s are the moment of inertia of each tops, and $\omega$'s are their angular velocities. 
-This can be rewritten in term of the rotational kinetic energy of the center of mass and relative rotational motion, as:
+where $I_L$ and $I_R$ are the moments of inertia of each top, and $\omega_L$ and $\omega_R$ are their angular velocities. 
+This expression can be rephrased in terms of the center-of-mass rotational motion and relative rotational motion:
 
-$$T_{rot} = \frac{1}{2}(I_{tot}\Omega^2+I_r\omega^2),$$
+$$T_{rot} = \frac{1}{2}(I_{tot}\Omega^2 + I_r\omega^2),$$
 
-where $\Omega = \frac{1}{I_{tot}}(I_L\omega_L+I_R\omega_R)$ is the center of mass [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity) and $\omega = \omega_R-\omega_L$ is the relative angular velocity.
-Furthermore, we have the total moment of inertia, $I_{tot} = I_L + I_R$, and
+where $\Omega = \frac{1}{I_{tot}}(I_L\omega_L + I_R\omega_R)$ is the center-of-mass [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity), and $\omega = \omega_R - \omega_L$ is the relative angular velocity. The total moment of inertia is $I_{tot} = I_L + I_R$, and
 
-$$I_r = \frac{I_LI_R}{I_L+I_R},$$
+$$I_r = \frac{I_LI_R}{I_L + I_R},$$
 
-the reduced moment of inertia for the relative motion.
-Since we want to treat internal rotation, it is the later quantity which is relevant. 
-This formula corresponds to the $I^{(2,n)}$ approximation of [10.1063/1.473958](https://dx.doi.org/10.1063/1.473958), since the proper coupling with the molecular rotations is not accounted for.
+represents the reduced moment of inertia relevant to internal rotations. 
+This is the $I^{(2,n)}$ approximation described in [this paper](https://dx.doi.org/10.1063/1.473958), which ignores molecular rotational coupling.
 
-The inertia moment for each group $G=L, R$ is computed as:
+The moment of inertia for each top $G = L, R$ is calculated as:
 
-$$I_{G} = \sum_{i\in G} m_id_i^2,$$
+$$I_{G} = \sum_{i \in G} m_i d_i^2,$$
 
-where $m_i$ is the mass of the atom $i$ in group $G$, and $d_i$ is the distance between atom $i$ and the rotation axis (see [there](https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line)).
-The $n$ in $I^{(2,n)}$ refers to the definition of the rotation axis:
+where $m_i$ is the mass of atom $i$ in group $G$, and $d_i$ is its distance to the axis of rotation (refer to [distance from a point to a line](https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line)). The subscript $n$ in $I^{(2,n)}$ specifies the axis of rotation:
 
-+ if $n=1$, the rotation axis corresponds to the twisting bond, 
-+ if $n=2$, the rotation axis is parallel to the bond, but pass through the center of mass of the rotating group in question, and
-+ if $n=3$, the rotation axis pass through the center of mass of both group (and is, thus, not necessarily parallel to the bond).
+- For $n = 1$, the axis corresponds to the twisting bond.
+- For $n = 2$, the axis is parallel to the bond but passes through the center of mass of the rotating group.
+- For $n = 3$, the axis passes through the center of mass of both groups (and may not be parallel to the bond).
 
-More accurate $I^{(m,n)}$ with $m>2$ exists, see [10.1063/1.473958](https://dx.doi.org/10.1063/1.473958) and the seminal work**s** of Pitzer, *e.g.* [10.1063/1.1932193](https://dx.doi.org/10.1063/1.1932193), which involve Coriolis coupling (see the "Proof" section).
-Another approximation comes from the fact that $I_L$ and $I_R$ (generally evaluated with the geometry of a minimum) are considered constant in the rotational motion, which may not be the case (think about, *e.g.*, rotations around C-C bond in butane).
-The impact of this approximation, among others, is discussed in [10.1021/acs.jced.6b00757](https://dx.doi.org/10.1021/acs.jced.6b00757).
+More accurate approximations, denoted $I^{(m,n)}$ with $m > 2$, account for Coriolis coupling and are discussed in [this work](https://dx.doi.org/10.1063/1.473958) and the seminal studies by Pitzer, such as [this one](https://dx.doi.org/10.1063/1.1932193).
 
-### The potential, $V(\theta)$
+An additional approximation arises from treating $I_L$ and $I_R$ as constant during rotation, which may not hold in all cases (e.g., for rotations around the C-C bond in butane). 
+The consequences of this and other approximations are discussed in [this paper](https://dx.doi.org/10.1021/acs.jced.6b00757).
 
-This can be obtained either:
+### The Potential, $V(\theta)$
 
-1. by performing a rigid scan around the rotation axis,
-2. by performing a relaxed scan around the rotation axis, or
-3. by performing as scan, followed by saddle point optimization for the maxima.
+The rotational potential $V(\theta)$ can be determined using one of the following methods:
 
-Note that in Gaussian 16, such relaxed scan can be performed thanks to [Generalized Internal Coordinates](https://gaussian.com/gic/) (GIC) with:
+1. **Rigid scan**: Perform a fixed-geometry scan around the rotational axis.
+2. **Relaxed scan**: Allow the structure to relax while scanning the rotational axis.
+3. **Saddle-point optimization**: Perform a scan followed by saddle-point optimization at the maxima.
+
+In Gaussian 16, relaxed scans can be performed using [Generalized Internal Coordinates](https://gaussian.com/gic/) (GIC) with a command like the following:
 
 ```txt
 #P wB97XD/6-311G* opt geom=(ModRedundant,GIC)
@@ -121,136 +119,154 @@ In general, the obtained profile is fitted to a [Fourrier series](https://en.wik
 
 ### Thermochemistry
 
-For a given system that can exists in different microstates defined by energy levels $\\{\varepsilon_n\\}$, we can compute the [partition function](https://en.wikipedia.org/wiki/Partition_function_(statistical_mechanics)#Canonical_partition_function) as:
+For a given system that can exist in different microstates defined by energy levels $\\{\varepsilon_n\\}$, we can compute the [partition function](https://en.wikipedia.org/wiki/Partition_function_(statistical_mechanics)#Canonical_partition_function) as:
 
-$$Q(T) = \sum_n e^{-\beta\ \varepsilon_n},$$
+$$ Q(T) = \sum_n e^{-\beta \varepsilon_n}, $$
 
-where $\beta = (k_BT)^{-1}$, the so called [thermodynamic beta](https://en.wikipedia.org/wiki/Thermodynamic_beta). 
-The sum extend over the set of all energy levels (a degeneracy factor can be used to consider the set of unique energy levels).
-Then, we just use the expressions coming from statistical mechanics.
-The internal (thermal) energy, $U$, at a given temperature is given by:
+where $\beta = (k_B T)^{-1}$, the so-called [thermodynamic beta](https://en.wikipedia.org/wiki/Thermodynamic_beta). 
+The sum extends over the set of all energy levels (a degeneracy factor can be used to account for the set of unique energy levels). 
+Once the partition function is known, we can apply expressions from statistical mechanics to derive various thermodynamic quantities. 
 
-$$ U = \braket{E} = \frac{1}{Q(T)}\ \sum_n \varepsilon_n\ e^{-\varepsilon_n\beta}  = k_BT^2\ \frac{\partial}{\partial T}\ln[Q(t)] ,$$
+The internal (thermal) energy, $U$, at a given temperature is:
+
+$$ U = \braket{E} = \frac{1}{Q(T)} \sum_n \varepsilon_n e^{-\varepsilon_n \beta} = k_B T^2 \frac{\partial}{\partial T} \ln[Q(T)], $$
 
 while the entropy, $S$, is given by:
 
-$$S = k_B\ln[Q(T)] + \frac{U - U_0}{T},$$
+$$ S = k_B \ln[Q(T)] + \frac{U - U_0}{T}, $$
 
-where $U_0$ is obtained by setting $T=0$ in the expression for $U$.
+where $U_0$ is obtained by setting $T = 0$ in the expression for $U$.
 
-Combining those two quantities gives the [Helmholtz free energy](https://en.wikipedia.org/wiki/Helmholtz_free_energy) given by $A = U -TS = -k_BT\ln[Q(T)]$.
-If one assume the pressure change to be negligible, this is equivalent to the [Gibbs free energy](https://en.wikipedia.org/wiki/Helmholtz_free_energy).
+Combining these two quantities yields the [Helmholtz free energy](https://en.wikipedia.org/wiki/Helmholtz_free_energy), given by:
 
-For example, let's consider a 1D **free rotor** (FR), using the solution given in Eq. (2). 
-The partition function is then given by:
+$$ A = U - TS = -k_B T \ln[Q(T)]. $$
 
-$$Q_{FR}(T) = \frac{1}{\sigma} \sum_{m\in\mathbb{Z}} e^{-B\beta m^2}, \text{ with } B = \frac{\hbar^2}{2I_r}.$$
+If we assume that pressure changes are negligible, this is equivalent to the [Gibbs free energy](https://en.wikipedia.org/wiki/Gibbs_free_energy).
 
-where $B$ is the [rotational constant](https://en.wikipedia.org/wiki/Rigid_rotor#Quantum_mechanical_linear_rigid_rotor) of the rotor, and $\sigma\in\mathbb{N}_0$ is the rotational symmetry number, which accounts for orientation that interchanges identical atoms.
-For example, in ethane, a rotation of 120° around the C-C left the molecule unchanged, so $\sigma=3$.
-According to [10.1016/0009-2614(94)87058-6](https://dx.doi.org/10.1016/0009-2614(94)87058-6) (see also [10.1021/ed082p1703](https://dx.doi.org/10.1021/ed082p1703)), if $B\beta$ is sufficiently small (large temperature and/or large $I_r$), one can approximate the partition function by computing the integral over $m$:
+#### Free Rotor (FR) Example
 
-$$Q_{FR}(T) =  \frac{1}{\sigma} \int_{-\infty}^\infty e^{-B\beta m^2}\ dm = \sqrt{\frac{\pi}{B\sigma^2\beta}} = \sqrt{\frac{2\pi k_B T\ I_r}{\sigma^2\hbar^2}}.$$
+Let's consider a 1D **free rotor** (FR), using the solution given in Eq. (2). The partition function is:
+
+$$ Q_{FR}(T) = \frac{1}{\sigma} \sum_{m \in \mathbb{Z}} e^{-B \beta m^2}, $$
+
+where $B = \frac{\hbar^2}{2I_r}$ is the [rotational constant](https://en.wikipedia.org/wiki/Rigid_rotor#Quantum_mechanical_linear_rigid_rotor) of the rotor, and $\sigma \in \mathbb{N}_0$ is the rotational symmetry number, which accounts for orientations that interchange identical atoms. 
+For example, in ethane, a 120° rotation around the C-C bond leaves the molecule unchanged, so $\sigma = 3$.
+
+According to [10.1016/0009-2614(94)87058-6](https://dx.doi.org/10.1016/0009-2614(94)87058-6) (see also [10.1021/ed082p1703](https://dx.doi.org/10.1021/ed082p1703)), if $B\beta$ is sufficiently small (i.e., at large temperatures and/or large $I_r$), we can approximate the partition function by computing the integral over $m$:
+
+$$ Q_{FR}(T) = \frac{1}{\sigma} \int_{-\infty}^\infty e^{-B \beta m^2} \, dm = \sqrt{\frac{\pi}{B \sigma^2 \beta}} = \sqrt{\frac{2 \pi k_B T I_r}{\sigma^2 \hbar^2}}. $$
 
 Therefore,
 
-$$\tag{3} U_{FR} = \frac{k_BT}{2} \text{  and } S_{FR} = k_B\ \left[\ln[Q(T)] + \frac{1}{2}\right].$$
+$$ \tag{3} U_{FR} = \frac{k_B T}{2}, \text{ and } S_{FR} = k_B \left[\ln[Q(T)] + \frac{1}{2}\right]. $$
 
-For a single QHO characterized by a vibrational energy $\varepsilon_{vib} = h\nu_{vib}$ (where $\nu$ is the vibrational frequency), one has:
+#### Quantum Harmonic Oscillator (QHO) Example
 
-$$Q_{QHO}(T) = \frac{e^{-\frac{1}{2}\varepsilon_{vib}\beta}}{1-e^{-\varepsilon_{vib}\beta}},$$
+For a single quantum harmonic oscillator (QHO) characterized by a vibrational energy $\varepsilon_{vib} = h\nu_{vib}$ (where $\nu$ is the vibrational frequency), the partition function is:
 
-so that:
+$$ Q_{QHO}(T) = \frac{e^{-\frac{1}{2} \varepsilon_{vib} \beta}}{1 - e^{-\varepsilon_{vib} \beta}}, $$
 
-$$\tag{4} U_{QHO} = \varepsilon_{vib}\ \left[\frac{1}{2}+\frac{1}{1-e^{-\varepsilon_{vib}\beta}}\right], \text{ and }
-S_{QHO} = k_B\left[\frac{\varepsilon_{vib}\beta}{1-e^{-\varepsilon_{vib}\beta}} - \ln\left(1-e^{-\varepsilon_{vib}\beta}\right)\right].$$
+which leads to the following expressions for the internal energy and entropy:
 
-Note that here, the [zero-point energy](https://en.wikipedia.org/wiki/Zero-point_energy) have been directly included in both $Q(T)$ and $U$ (referred to as the "bottom of the well" convention in some text and programs, such as [Gaussian](https://gaussian.com/wp-content/uploads/dl/thermo.pdf)).
-This correction is sometimes added separately.
+$$ \tag{4} U_{QHO} = \varepsilon_{vib} \left[\frac{1}{2} + \frac{1}{1 - e^{-\varepsilon_{vib} \beta}}\right], $$
 
-## Example: a simple $\sigma$-fold cosine potential
+and
 
-In the **very** simple cases, such as ethane (or ferrocene, for that matter), instead of FR or QHO, one can approximate $V(\theta)$ with a $\sigma$-fold cosine potential:
+$$ S_{QHO} = k_B \left[\frac{\varepsilon_{vib} \beta}{1 - e^{-\varepsilon_{vib} \beta}} - \ln\left(1 - e^{-\varepsilon_{vib} \beta}\right)\right]. $$
 
-$$V(\theta)=\frac{V_0}{2}\ [1 - \cos(\sigma\theta)],$$
+Note that here, the [zero-point energy](https://en.wikipedia.org/wiki/Zero-point_energy) has been directly included in both $Q(T)$ and $U$ (this is referred to as the "bottom of the well" convention in some texts and programs, such as [Gaussian](https://gaussian.com/wp-content/uploads/dl/thermo.pdf)). 
+In other cases, this correction may be added separately.
 
-where $\sigma$ thus corresponds to the number of minima/maxima in the potential.
-Note that what is following could be easily extended to a more general Fourrier series, as done, *e.g.*, in [RMG-Py](https://github.com/ReactionMechanismGenerator/RMG-Py).
+## Example: A Simple $\sigma$-fold Cosine Potential
 
-In that case, according to [10.1021/ed077p1495](https://dx.doi.org/10.1021/ed077p1495), an approximate barrier can be estimated from the vibrational frequency of the mode, $\nu_{vib}$ (in s⁻¹).
-Using a Taylor expansion of $V(\theta)$ around $\theta = 0$, one gets:
+In very simple cases, such as ethane (or ferrocene, for that matter), instead of using a free rotor (FR) or a quantum harmonic oscillator (QHO) model, we can approximate $V(\theta)$ with a $\sigma$-fold cosine potential:
 
-$$V_0' = \frac{2\nu_{vib}^2I_r}{\sigma^2\hbar^2}.$$
+$$ V(\theta) = \frac{V_0}{2} \ [1 - \cos(\sigma \theta)], $$
 
-### Solving the 1-DHR
+where $\sigma$ corresponds to the number of minima and maxima in the potential. 
+This approach can easily be extended to a more general Fourier series, as done, for example, in [RMG-Py](https://github.com/ReactionMechanismGenerator/RMG-Py).
 
-Note that here, we are only interested in the energies from Eq. (1) in order to compute the thermodynamical quantities.
-While there actually are analytical solutions for this case, given by [Mathieu functions](https://en.wikipedia.org/wiki/Mathieu_function), I would like to stress another method (or, rather, "remind", as it is generally addressed in quantum physics lectures) which, while being approximate, can virtually apply to any $V(\theta)$: the **secular determinant**.
-One can find its application for this case in [10.1021/ed1000137](https//dx.doi.org/10.1021/ed1000137) (which covers different cases in its Supporting Information).
+According to [10.1021/ed077p1495](https://dx.doi.org/10.1021/ed077p1495), an approximate barrier can be estimated from the vibrational frequency of the mode, $\nu_{vib}$ (in s⁻¹). Using a Taylor expansion of $V(\theta)$ around $\theta = 0$, we get:
 
-Reminder: it is based on the good old **variational principle** (more precisely the [Rayleigh-Ritz method](https://en.wikipedia.org/wiki/Rayleigh%E2%80%93Ritz_method)).
-Provided a set of basis functions $\\{\phi_i\\}$, we know from the variational principle that the energy of a trial function $\Psi = \sum_i c_i\phi_i$ is always larger or equal to the true ground state energy, $\varepsilon_0$,
+$$ V_0' = \frac{2 \nu_{vib}^2 I_r}{\sigma^2 \hbar^2}. $$
 
-$$\varepsilon_0 \leq \varepsilon, \text{ with } \varepsilon =  \frac{\braket{\Psi|H|\Psi}}{\braket{\Psi|\Psi}},$$
+The evolution of $V_0$ with $\nu_{vib}$ is plotted below:
 
-so that we can find the set of coefficients $\\{c_i\\}$ that minimize the energy of our trial function by setting $\frac{d\varepsilon}{dc_i} = 0$.
-If we do that, we eventually obtain a set of secular equations of the form:
+![](./V0.svg)
 
-$$\forall k: \sum_i c_i(H_{ki}-\varepsilon_k S_{ki}) = 0,$$
+**Figure:** The value of $V_0' / k_B T$ at $T = 298.15$ K for $\sigma = 3$. The plots are shown for $I_r$ = 5 (solid line), 10 (dashed line), and 20 (dotted line) AMU Å².
 
-where $S_{ki}=\braket{\phi_k|\phi_i}$ (overlap matrix) and $H_{ki} = \braket{\phi_k|\hat H|\phi_i}$ (Hamiltonian matrix).
-This is a [generalized eigenvalue problem](https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix#Generalized_eigenvalue_problem).
-However, if the set of functions is orthogonal, $S_{ki} = \delta_{k,i}$ and this becomes an (normal) eigenvalue problem, for which we "just" need to diagonalize $H$ to get the energies.
+As shown, the barrier quickly exceeds the characteristic thermal energy ($k_B T$), and this behavior is proportional to the reduced moment of inertia, $I_r$.
 
-Any set of [orthogonal function](https://en.wikipedia.org/wiki/Orthogonal_functions) would work, but depending on the system, some are easier than others.
-In this case, the solution for the FR, $\\{\Theta_i\\}$, given in Eq. (1), will do fine.
-The elements of $H$ are given by:
+### Solving the 1-D Hindered Rotor (1-DHR)
+
+Here, we are primarily interested in the energies from Eq. (1) to compute thermodynamic quantities. 
+While analytical solutions exist for this case, based on [Mathieu functions](https://en.wikipedia.org/wiki/Mathieu_function), I would like to highlight a different method: the **secular determinant** approach, commonly covered in quantum mechanics lectures. 
+Though approximate, this method can be applied to any $V(\theta)$ potential.
+
+The secular determinant is derived from the **variational principle** (specifically, the [Rayleigh-Ritz method](https://en.wikipedia.org/wiki/Rayleigh%E2%80%93Ritz_method)). 
+Given a set of basis functions $\\{\phi_i\\}$, the energy of a trial function $\Psi = \sum_i c_i \phi_i$ is always greater than or equal to the true ground state energy, $\varepsilon_0$:
+
+$$ \varepsilon_0 \leq \varepsilon, \text{ where } \varepsilon = \frac{\braket{\Psi|H|\Psi}}{\braket{\Psi|\Psi}}, $$
+
+We minimize the energy of the trial function by setting $\frac{d\varepsilon}{dc_i} = 0$. 
+This yields a set of secular equations of the form:
+
+$$ \forall k: \sum_i c_i (H_{ki} - \varepsilon_k S_{ki}) = 0, $$
+
+where $S_{ki} = \braket{\phi_k | \phi_i}$ (overlap matrix) and $H_{ki} = \braket{\phi_k | \hat{H} | \phi_i}$ (Hamiltonian matrix). 
+This is a [generalized eigenvalue problem](https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix#Generalized_eigenvalue_problem). 
+If the basis functions are orthogonal, i.e., $S_{ki} = \delta_{k,i}$, this reduces to a standard eigenvalue problem, where diagonalizing $H$ gives the energy levels.
+
+Any set of [orthogonal functions](https://en.wikipedia.org/wiki/Orthogonal_functions) can be used, but depending on the system, some choices are more practical than others. 
+In this case, the free rotor solutions $\\{\Theta_i\\}$ from Eq. (1) work well. 
+The matrix elements of $H$ are given by:
 
 $$\begin{aligned}
-H_{mn} &=\braket{\Theta_m|\hat H|\Theta_n}\\\\ 
-&= -B\ \int_0^{2\pi} \Theta_m^\star\frac{d^2}{d\theta^2}\Theta_n\ d\theta + \frac{V_0}{2}\int_0^{2\pi} \Theta_m^\star[1 - \cos(\sigma\theta)]\Theta_n\ d\theta  \\\\
-&= \frac{Bn^2}{4\pi}\int_0^{2\pi} e^{i(n-m)\theta}\ d\theta + \frac{V_0}{4\pi}\int_0^{2\pi}  e^{i(n-m)\theta}\ [1 - \cos(\sigma\theta)]\ d\theta \\\\
-&= \left(Bn^2 + \frac{V_0}{2}\right)\delta_{m,n} - \frac{V_0}{4}\delta_{m,n\pm\sigma}.
+H_{mn} &= \braket{\Theta_m | \hat{H} | \Theta_n} \\\\
+&= -B \int_0^{2\pi} \Theta_m^\star \frac{d^2}{d\theta^2} \Theta_n \, d\theta + \frac{V_0}{2} \int_0^{2\pi} \Theta_m^\star [1 - \cos(\sigma \theta)] \Theta_n \, d\theta \\\\
+&= \frac{Bn^2}{4\pi} \int_0^{2\pi} e^{i(n-m)\theta} \, d\theta + \frac{V_0}{4\pi} \int_0^{2\pi} e^{i(n-m)\theta} [1 - \cos(\sigma \theta)] \, d\theta \\\\
+&= \left(Bn^2 + \frac{V_0}{2}\right) \delta_{m,n} - \frac{V_0}{4} \delta_{m,n\pm\sigma}.
 \end{aligned}$$
 
-Here, $m, n \in\mathbb{Z}$ are not the position in the matrix, but the quantum numbers of the basis functions.
-In practice, we will chose $-M \leq m,n \leq M$, so that $H$ contains $2M+1$ basis functions, and thus columns and rows.
-Once the set of $\\{\varepsilon_n\\}$ energies have been obtained, the partition function is given by:
+Here, $m, n \in \mathbb{Z}$ are quantum numbers of the basis functions, not matrix indices. 
+In practice, we choose $-M \leq m, n \leq M$, so that $H$ contains $2M+1$ basis functions. 
+Once the energy levels $\\{\varepsilon_n\\}$ are obtained, the partition function is:
 
-$$Q_{HR}(T) = \frac{1}{\sigma}\sum_{-M\leq n \leq M} e^{-\beta\ \varepsilon_n}.$$
+$$ Q_{HR}(T) = \frac{1}{\sigma} \sum_{-M \leq n \leq M} e^{-\beta \varepsilon_n}. $$
 
-Again, this can be easily extended to any $V(\theta)$ described using a Fourrier series.
+This approach can be easily extended to any $V(\theta)$ potential described by a Fourier series.
 
-### Application to ethane
+### Application to Ethane
 
-The application of what we have seen above to any molecule requires 5 steps:
+The application of this method to a molecule requires five steps:
 
-1. from a vibrational frequency calculation, determination of the internal rotation modes,
-2. for each mode, determination of the barrier, $V_0$ (either from the vibrational calculation, $V_0'$, or using a scan),
-3. determination of the reduced inertia moment, and
-4. determination of the energy levels,  $\\{\varepsilon_n\\}$, from the HR model, and
-5. calculation of the different thermodynamical quantities. 
+1. From a vibrational frequency calculation, identify the internal rotation modes.
+2. For each mode, determine the barrier, $V_0$ (either from the vibrational calculation as $V_0'$ or using a potential energy scan).
+3. Determine the reduced moment of inertia.
+4. Solve for the energy levels $\\{\varepsilon_n\\}$ using the hindered rotor model.
+5. Calculate the thermodynamic quantities.
 
-Concerning the first step, for ethane, an internal rotation is found around 300 cm⁻¹:
+For ethane, an internal rotation mode is found around 300 cm⁻¹:
 
 ![](vib_ethane.gif)
 
-**Figure:** visualization of the low-lying rotational mode of ethane (located at 310.08 cm⁻¹) as computed at the ωB97X-D/6-311G* level in gas phase, after an optimization at the same level.
+**Figure:** Visualization of the low-lying rotational mode of ethane (located at 310.08 cm⁻¹), computed at the ωB97X-D/6-311G* level in the gas phase.
 
-A quick estimate of the rotation barrier is provided by $V_0'$ = 11.96 kJ mol⁻¹, which is actually not bad at all (according to [10.1021/ed082p1703](https://dx.doi.org/10.1021/ed082p1703), this barrier is located, experimentally, around 12 kJ mol⁻¹).
-We can also extract a better estimate from the relaxed scan (see above):
+A quick estimate of the rotation barrier gives $V_0' = 11.96$ kJ/mol, which is reasonably close to the experimental value of around 12 kJ/mol ([10.1021/ed082p1703](https://dx.doi.org/10.1021/ed082p1703)). A more accurate estimate can be obtained from a relaxed scan:
 
 ![](ethane_scan.svg)
 
-**Figure:** fit (plain line) of the scan (dots, from the data available [here](./ethane_scan.csv) shifted by 60°) around the C-C bond, using $\sigma=3$. The barrier is estimated to a bit smaller.
+**Figure:** Fit (solid line) of the scan (dots, data available [here](./ethane_scan.csv), shifted by 60°) around the C-C bond, using $\sigma = 3$. The barrier is estimated to be slightly lower.
 
-Concerning the inertia moment, a bit of trigonometry is sufficient in this case ;)
+Using simple trigonometry, the moment of inertia can be calculated:
 
 ![](ethane_measurments.png)
 
-$I_L$ = $I_R$ = $3\times 1.008 \times [1.093 \sin(180°-111.37°)]^2$ = 3.132 AMU  Å², and therefore $I_r$ = $\frac{1}{2}I_L$ = 1.566 AMU  Å².
+The moment of inertia is $I_L = I_R = 3 \times 1.008 \times [1.093 \sin(180^\circ - 111.37^\circ)]^2 = 3.132$ AMU Å², and $I_r = \frac{1}{2} I_L = 1.566$ AMU Å².
 
-For the two last steps, I have written a [small python code](hindered_rotor.py) called `hindered_rotor.py` (note that $M=200$).
+For the final steps, I have written a small Python script called [`hindered_rotor.py`](hindered_rotor.py) (which uses $M=200$, quite a large number). 
+The script requires `scipy` and `numpy` for numerical calculations.
 It gives the following result:
 
 ```text
@@ -266,7 +282,8 @@ Corrections at T=298.15 K
 ```
 
 As you can see, the inputs are the reduced inertia moment (in AMU  Å²), the barrier (in kJ mol⁻¹), the vibrational frequency (in cm⁻¹), and $\sigma$.
-It predicts that if the mode located at 310 cm⁻¹ is described by a QHO, then, one should apply a correction of -0.35 kJ mol⁻¹ to the free Helmotz energy to account for the hindered rotation.
+It provides correction to the mode if it would have been described by a QHO.
+Here, it predicts that if the mode located at 310 cm⁻¹ was described by a QHO, then, one should apply a correction of -0.35 kJ mol⁻¹ to the free Helmotz energy to correct it and describe a hindered rotation.
 
 It should be noted that Gaussian provides a keyword to perform the analysis, [`freq=HinderedRotor`](https://gaussian.com/freq/). 
 Provided that it recognize the rotation (this is not the case for ferrocene), it also propose different correction. 
@@ -325,6 +342,34 @@ Corrections at T=298.15 K
 ```
 
 While the estimate for $S$ is similar, my $U$ is a bit too small.
+
+### So, Is That Useful?
+
+It can be:
+
+![](./corr_curve.svg)
+
+**Figure:** Correction relative to QHO of the free Helmholtz energy at $T = 298.15$ K, using the barrier estimated from the vibrational frequency, $V_0'$, for HR and $\sigma = 3$. $I_r$ = 5 (plain line), 10 (dashed line), and 20 (dotted line) AMU Å².
+
+So,
+
++ The correction to $A$ is more significant for low-lying modes, and FR is sufficient initially.
++ HR diverges from FR after 25 cm⁻¹ (since $V_0'$ becomes large, as noted above) and tends to QHO at large vibrational frequencies.
++ The frequency at which using HR leads to negligible corrections is proportional to $I_r$.
+
+Thus, QHO should generally not be used for low-lying rotational modes, and there is an optimal range where HR should be employed (when $V_0$ is close to $k_BT$). 
+
+By the way, here is the impact of temperature:
+
+![](./corr_curve_T.svg)
+
+**Figure:** Correction relative to QHO of the free Helmholtz energy at different $T$, for a mode located at 50 cm⁻¹ and $\sigma = 3$. $I_r$ = 5 (plain line), 10 (dashed line), and 20 (dotted line) AMU Å².
+
+This time, when $T$ is high (and thus $V_0'$ is comparable to $k_BT$), both models agree on the correction.
+
+## Conclusion
+
+While not dramatic (up to 10 kJ mol⁻¹ in some cases), the FR/HR correction can become significant when the energy of the reaction is close to zero.
 
 ## Some literature
 
