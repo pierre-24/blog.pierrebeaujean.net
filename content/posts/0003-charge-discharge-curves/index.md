@@ -20,16 +20,16 @@ Instead, they move through an external electrical circuit to reach the other ele
 This movement of electrons through the circuit is what powers devices and represents the working principle of a battery.
 Note that ionic species and electrons must move at the same rate to maintain charge balance.
 
-Let's assume that $A$ is the species being transported. 
+Let's assume that $A$ is the species being transported, and thus $A$ is the **negative** electrode. 
 At the interface of electrode $A$, the following reaction occurs: $A \rightarrow A^+ + e^-$. 
 The ion $A^+$ then moves through the electrolyte toward electrode $B$. 
 At electrode $B$, the electron meet $A^+$ and a second reaction takes place: $A^+ + e^- \rightarrow A$, followed by $A + B \rightarrow AB$.
 Schematically, one has:
 
 ```goat
-+-----+-------------+-----+      +---+-------------+----+---+      +-------------+--------+
-|  A  | electrolyte |  B  | -->  | A | electrolyte | AB | B | -->  | electrolyte |   AB   |
-+-----+-------------+-----+      +---+-------------+----+---+      +-------------+--------+
++-----+-------------+-----+      +---+-------------+----+---+      +-------------+----------+
+|  A  | electrolyte |  B  | -->  | A | electrolyte | AB | B | -->  | electrolyte |    AB    |
++-----+-------------+-----+      +---+-------------+----+---+      +-------------+----------+
 ```
 
 Note that the diffusion of $A$, $B$, and $e^-$ through $AB$ is necessary for the reaction to occur. 
@@ -44,6 +44,14 @@ The energy balance is expressed as:
 $$\Delta G_r = -z\mathcal{F} E^0.$$
 
 This is (one form of) the [Nernst equation](https://en.wikipedia.org/wiki/Nernst_equation).
+Another form is:
+
+$$\tag{1} E^0 = E^0(A|B) - \frac{RT}{z\mathcal F}\ln\frac{a_B}{a_A},$$
+
+where $a_i$ is the activity of $i$.
+
+Thus $E^0$ alongside the charge/discharge process show the variation of $E^0$.
+In this post, I will explore why this profile does not necessarily follow Eq. 1.
 
 ## Sources
 
