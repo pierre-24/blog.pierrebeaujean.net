@@ -20,7 +20,7 @@ Instead, they move through an external electrical circuit to reach the other ele
 This movement of electrons through the circuit is what powers devices and represents the working principle of a battery.
 Note that ionic species and electrons must move at the same rate to maintain charge balance.
 
-Let's assume that $A$ is the species being transported, and thus $A$ is the **negative** electrode. 
+Let's assume that $A$ is the species being transported, and thus $A$ is the **anode**. 
 At the interface of electrode $A$, the following reaction occurs: $A \rightarrow A^+ + e^-$. 
 The ion $A^+$ then moves through the electrolyte toward electrode $B$. 
 At electrode $B$, the electron meet $A^+$ and a second reaction takes place: $A^+ + e^- \rightarrow A$, followed by $A + B \rightarrow AB$.
@@ -41,17 +41,48 @@ The chemical driving force arises from the difference in chemical potential betw
 The electrostatic force derived from the energy of a set of charge, by $-z\mathcal{F} E^0$, where $z$ is the charge number of the ionic species, $\mathcal{F}$ is the [Faraday constant](https://en.wikipedia.org/wiki/Faraday_constant), and $E^0$ is the (absolute) potential difference between the two electrodes.
 The energy balance is expressed as:
 
-$$\Delta G_r = -z\mathcal{F} E^0.$$
+$$\tag{1} \Delta G_r = -z\mathcal{F} E^0.$$
 
 This is (one form of) the [Nernst equation](https://en.wikipedia.org/wiki/Nernst_equation).
-Another form is:
 
-$$\tag{1} E^0 = E^0(A|B) - \frac{RT}{z\mathcal F}\ln\frac{a_B}{a_A},$$
+Following $E^0$ alongside the charge/discharge process gives some very interesting information about the nature of the electrodes.
+In this post, I will explore the thermodynamic reasons for that.
 
-where $a_i$ is the activity of $i$.
+## A bit of thermodynamics
 
-Thus $E^0$ alongside the charge/discharge process show the variation of $E^0$.
-In this post, I will explore why this profile does not necessarily follow Eq. 1.
+### The chemical potential
+
+The [chemical potential](https://en.wikipedia.org/wiki/Chemical_potential) of a given species, $\mu_i$, represents the energy absorbed or released due to a change in the number of particles of that species:
+
+$$\mu_i = \left(\frac{\partial G}{\partial n_i}\right)_{T,P,n\_{j\neq i}}.$$
+
+Particles tend to move from regions of high chemical potential to regions of low chemical potential, as this reduces the system's (free) energy. 
+
+Consider a system with two compartments, 1 and 2, separated by a membrane, containing species X at different concentrations. 
+The movement of particles from compartment 1 to compartment 2 occurs such that $-dn_1 = dn_2$. 
+The corresponding change in Gibbs free energy is:
+
+$$dG = d(G_1+ G_2) = \mu_1dn_1 + \mu_2dn_2 = -(\mu_1-\mu_2)dn_2,$$
+
+where $\mu_i$ is the chemical potential in compartment $i$.
+If $\mu_1 > \mu_2$, then $dG < 0$, indicating that the transfer from compartment 1 (high chemical potential) to compartment 2 (low chemical potential) decreases the total Gibbs free energy. 
+Additionally, as particles move, the chemical potentials of the compartments adjust: $\mu_1$ decreases in compartment 1, and $\mu_2$ increases in compartment 2. At equilibrium, $\mu_1 = \mu_2$.
+
+This thought experiment leads to a fundamental principle: **when two (or more) phases are at equilibrium, the chemical potential of any components is equal in all phases**.
+
+Furthermore, in a solution, the chemical potential of $i$ only depends on temperature and pressure. 
+This leads to:
+
+$$\mu_i = \mu_i^0+RT\ln a_i,$$
+
+where $a_i = \gamma_i x_i$ is the activity (an effective concentration), with $\gamma_i$ the [activity coefficient](https://en.wikipedia.org/wiki/Activity_coefficient), $x_i =n_i / \sum_j n_j$ the molar fraction of $i$ in solution and $\mu_i^0$ is the standard state chemical potential.
+Therefore, $a_i\in[0,1]$ represent how "pure" compound $i$ is in solution.
+
+From the definition of the chemical potential, it follows that **when two (or more) phases are at equilibrium, the activity of any components is the same in all phases**, provided that the activity is expressed with respect to the same standard state.
+
+Finally, one can re-write the Nernst equation as:
+
+$$\tag{2}  E^0 = -\frac{\mu_{cathode}-\mu_{anode}}{z\mathcal F}.$$
 
 ## Sources
 
