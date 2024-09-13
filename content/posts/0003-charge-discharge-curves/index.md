@@ -5,6 +5,8 @@ draft: true
 tldr: These curves give information about the cathode/anode materials.
 tags: 
 - lang:en
+- quantum chemistry
+- batteries
 ---
 
 ## Introduction
@@ -80,10 +82,34 @@ Therefore, $a_i\in[0,1]$ represent how "pure" compound $i$ is in solution.
 
 From the definition of the chemical potential, it follows that **when two (or more) phases are at equilibrium, the activity of any components is the same in all phases**, provided that the activity is expressed with respect to the same standard state.
 
-Finally, one can re-write the Nernst equation as:
+### The electrochemical potential
 
-$$\tag{2}  E^0 = -\frac{\mu_{cathode}-\mu_{anode}}{z\mathcal F}.$$
+As noted in [10.1021/acsenergylett.0c02443](https://dx.doi.org/10.1021/acsenergylett.0c02443), the chemical potential does not account for the electrostatic contribution. 
+Thus, the **electrochemical potential**, $\bar\mu_i$, is defined as:
+
+$$\bar\mu_i = \mu_i + z_i \mathcal{F} \phi,$$
+
+where $z_i$ is the charge of species $i$, and $\phi$ is the electrical potential in a given phase.
+
+We can extend the principle of chemical equilibrium by stating that **when two (or more) phases are at equilibrium, the electrochemical potential of each component is equal across all phases**.
+This principle is particularly useful in electrochemistry, where the electrochemical potential of electrons is often the focus. 
+For example, the (relative) electrode or cell potential is defined by the difference between the electrochemical potential of the working electrode, $\bar\mu_e^{w}$, and that of a reference electrode, $\bar\mu_e^{ref}$:
+
+$$E^0_{w} = -\frac{\bar\mu_e^{w} - \bar\mu_e^{ref}}{\mathcal{F}}.$$
+
+Moreover, if the working electrode is in equilibrium with a redox couple $O/R$, where the reaction is $O + ne^- \rightarrow R$, then the electrochemical potentials of all species involved must be equal:
+
+$$\bar\mu_e^{w} = \bar\mu_{O/R} \Rightarrow \bar\mu_e^s = \frac{\bar\mu_R - \bar\mu_O}{n},$$
+
+where $\bar\mu_e^s$ is the electrochemical potential of the solution. 
+This gives rise to the *solution* potential:
+
+$$E^0 = -\frac{\bar\mu_e^s}{\mathcal{F}} = -\frac{\bar\mu_R - \bar\mu_O}{n\mathcal{F}},$$
+
+which is another form of the Nernst equation (Eq. 1). 
+In practice, since $\bar\mu_e^{w}$ is measured relative to a reference, $E^0$ is also defined with respect to a reference electrode.
 
 ## Sources
 
 + *Advanced Batteries (Materials Science Aspects)* (book), [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5).
++ *Potentially Confusing: Potentials in Electrochemistry*, [10.1021/acsenergylett.0c02443](https://dx.doi.org/10.1021/acsenergylett.0c02443).
