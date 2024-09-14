@@ -11,7 +11,7 @@ tags:
 
 ## Introduction
 
-Following [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5), in first approximation, a battery can actually be modeled as a simple reaction between two metallic materials, $A$ and $B$, reacting as $A + B \rightarrow AB$.
+Following [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5), in first approximation, a battery can actually be modeled as a simple reaction between two metallic materials, $A$ and $B$, reacting for example as $A + B \rightarrow AB$.
 
 However, in a battery, $A$ and $B$ are electrode materials separated by an **electrolyte**. 
 This electrolyte is specifically chosen to allow the transport of ionic species while acting as an electrical insulator. 
@@ -22,10 +22,12 @@ Instead, they move through an external electrical circuit to reach the other ele
 This movement of electrons through the circuit is what powers devices and represents the working principle of a battery.
 Note that ionic species and electrons must move at the same rate to maintain charge balance.
 
-Let's assume that $A$ is the species being transported, and thus $A$ is the **anode**. 
-At the interface of electrode $A$, the following reaction occurs: $A \rightarrow A^+ + e^-$. 
-The ion $A^+$ then moves through the electrolyte toward electrode $B$. 
-At electrode $B$, the electron meet $A^+$ and a second reaction takes place: $A^+ + e^- \rightarrow A$, followed by $A + B \rightarrow AB$.
+Let's assume that $A$ is the species being transported. The pathway is the following:
+
+1. At the interface of electrode $A$, say that the following reaction occurs: $A \rightarrow A^+ + e^-$. $A$ is thus the **anode**.
+2. The ion $A^+$ then moves through the electrolyte toward electrode $B$. 
+3. At electrode $B$, the electron meet $A^+$ and a second reaction takes place: $A^+ + e^- \rightarrow A$, followed by $A + B \rightarrow AB$. $B$ is thus the **cathode**.
+
 Schematically, one has:
 
 ```goat
@@ -33,6 +35,8 @@ Schematically, one has:
 |  A  | electrolyte |  B  | -->  | A | electrolyte | AB | B | -->  | electrolyte |    AB    |
 +-----+-------------+-----+      +---+-------------+----+---+      +-------------+----------+
 ```
+
+During the charge/discharge process, at the cathode side, there are two phases: one containing $AB$ and another with $B$.
 
 Note that the diffusion of $A$, $B$, and $e^-$ through $AB$ is necessary for the reaction to occur. 
 Therefore, $AB$ must function as both an electrical and ionic conductor.
@@ -47,8 +51,28 @@ $$\tag{1} \Delta G_r = -z\mathcal{F} E^0.$$
 
 This is (one form of) the [Nernst equation](https://en.wikipedia.org/wiki/Nernst_equation).
 
-Following $E^0$ alongside the charge/discharge process gives some very interesting information about the nature of the electrodes.
-In this post, I will explore the thermodynamic reasons for that.
+Note that the formation reaction, $A + B \rightarrow AB$, where a new phase $AB$ forms alongside $B$, is not the only mechanism in battery operation.
+Other mechanisms include:
+
++ **Displacement Reactions**: $A + BX \rightarrow AX + B$. 
+  This involves the creation of a new phase containing $B$, for which the driving force is that the phase $AX$ is more stable than $BX$. 
+  An example of this mechanism can be found in [CuS batteries](https://dx.doi.org/10.1002/aenm.202002394).
++ **Insertion Reactions**: $xA + BX \rightarrow A_xBX$. 
+  In this case, $A$ is inserted into unoccupied sites within the structure of $BX$, forming a **solid solution** phase that exhibits a continuous range of compositions, *i.e.*, a range of $x$ values. 
+  This is the working principle of many modern batteries, such as [lithium-ion batteries](https://en.wikipedia.org/wiki/Lithium-ion_battery) (originally utilizing cobalt oxide as the cathode, thought other oxides have since been explored).
+
+```goat
++-----+-------------+-----+        +---+-------------+--+--+---+
+|  A  | electrolyte | BX  | -+-->  | A | electrolyte |B |AX|BX |  (diplacement)
++-----+-------------+-----+  |     +---+-------------+--+--+---+
+                             |
+                             |     +---+-------------+-------+
+                             +-->  | A | electrolyte | AₓBX  |    (insertion)
+                                   +---+-------------+-------+
+```
+
+The potential along the charge/discharge process depends on the mechanism in place, and thus following $E^0$ alongside the charge/discharge process gives some information.
+In this post, I will explore the (thermodynamic) reasons for that.
 
 ## A bit of thermodynamics
 
@@ -66,13 +90,16 @@ The corresponding change in Gibbs free energy is:
 
 $$dG = d(G_1+ G_2) = \mu_1dn_1 + \mu_2dn_2 = -(\mu_1-\mu_2)dn_2,$$
 
-where $\mu_i$ is the chemical potential in compartment $i$.
+where $\mu_i$ is the chemical potential in compartment $i$ and we have used the relationship:
+
+$$dG = \sum_i \mu_idn_i.$$
+
 If $\mu_1 > \mu_2$, then $dG < 0$, indicating that the transfer from compartment 1 (high chemical potential) to compartment 2 (low chemical potential) decreases the total Gibbs free energy. 
 Additionally, as particles move, the chemical potentials of the compartments adjust: $\mu_1$ decreases in compartment 1, and $\mu_2$ increases in compartment 2. At equilibrium, $\mu_1 = \mu_2$.
 
 This thought experiment leads to a fundamental principle: **when two (or more) phases are at equilibrium, the chemical potential of any components is equal in all phases**.
 
-Furthermore, in a solution, the chemical potential of $i$ only depends on temperature and pressure. 
+Finally, in a solution, the chemical potential of $i$ only depends on temperature and pressure. 
 This leads to:
 
 $$\mu_i = \mu_i^0+RT\ln a_i,$$
@@ -109,7 +136,50 @@ $$E^0 = -\frac{\bar\mu_e^s}{\mathcal{F}} = -\frac{\bar\mu_R - \bar\mu_O}{n\mathc
 which is another form of the Nernst equation (Eq. 1). 
 In practice, since $\bar\mu_e^{w}$ is measured relative to a reference, $E^0$ is also defined with respect to a reference electrode.
 
+With those tools in hand, let's address our different charge/discharge mechanisms.
+
+### Thermodynamic of mixing into a single phase
+
+Let's first consider the case of a single phase with two components, $A$ and $B$.
+This could be either a liquid phase or a [solid solution](https://en.wikipedia.org/wiki/Solid_solution) (also referred to as [alloy](https://en.wikipedia.org/wiki/Alloy) in metallurgy).
+
+The molar fraction of $A$ is noted $x_A$, and the one of $B$ is $x_B = 1-x_A$.
+The free energy of this system in a given phase, $\alpha$, is given by:
+
+$$G^\alpha = x_A\mu_A^\alpha + x_B\mu_B^\alpha.$$
+
+Note that considering the electrochemical potential $\bar\mu_i$ instead of $\mu_i$ would not change anything here.
+
+The free energy of mixing is the difference between the free energy of the individual components, separated, and the one of the components mixed together as the phase $\alpha$, so:
+
+$$\Delta G_{mix} = G^\alpha - G_A - G_B = x_A\Delta\mu_A^\alpha + x_B\Delta\mu_B^\alpha = RT(x_A\ln a^\alpha_A + x_B \ln a^\alpha_B),$$
+
+where we have used the fact that $G_A = x_A\mu^0_A$, because the activity of $A$ in pure $A$ is obviously equal to 1.
+
+**!! GRAPH**
+
+In ideal (or Raoultian solution, where the [Raoult's law](https://en.wikipedia.org/wiki/Raoult's_law) is valid) we can go further by assuming that $a_i = x_i$.
+Thus,
+
+$$\Delta G_{mix}^{ideal} = RT[x_A\ln x_A + (1-x_A)\ln (1-x_A)] = RT\left(1+ x_A\ln\frac{x_A}{1-x_A}\right).$$
+
+In this case, this is a purely entropic process, as $\Delta H_{mix}^{ideal} = \Delta G_{mix}^{ideal} + T\Delta S_{mix}^{ideal} = 0$, with:
+
+$$\Delta S_{mix} = \left(\frac{dG_{mix}}{dT}\right)_P = R[x_A\ln a^\alpha_A + x_B\ln a^\alpha_B].$$
+
+Obviously, this is an approximation, and the deviation from ideality is referred to as an *excess property*, $\Delta G^e_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
+
+Surprisingly, it is actually customary to use the model of a solution to describe the process of insertion.
+As described in [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5) (and others), the variation of free energy of the material $A_xBX$ with the "concentration" of inserted compounds, can be approximated using:
+
+$$G_{A_xBX}(x) = G_{BX} + \varepsilon x +  RT\left(1+ x\ln\frac{x}{1-x}\right),$$
+
+where $\varepsilon$ is the free energy per added $A$ in the structure, with $0 \leq x \leq 1$ (the range can be more restricted if the phase change over the charging process, see below).
+
+
 ## Sources
 
 + *Advanced Batteries (Materials Science Aspects)* (book), [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5).
++ *Physical metallurgy* (book), [10.1016/C2010-0-65716-6](https://doi.org/10.1016/C2010-0-65716-6).
 + *Potentially Confusing: Potentials in Electrochemistry*, [10.1021/acsenergylett.0c02443](https://dx.doi.org/10.1021/acsenergylett.0c02443).
++ *Understanding Li Diffusion in Li-Intercalation Compounds*, [10.1021/ar200329r](https://pubs.acs.org/doi/10.1021/ar200329r).
