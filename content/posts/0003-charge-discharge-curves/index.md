@@ -138,44 +138,49 @@ In practice, since $\bar\mu_e^{w}$ is measured relative to a reference, $E^0$ is
 
 With those tools in hand, let's address our different charge/discharge mechanisms.
 
-### Thermodynamic of mixing into a single phase
+### Thermodynamics of Mixing into a Single Phase
 
-Let's first consider the case of a single phase with two components, $A$ and $B$.
-This could be either a liquid phase or a [solid solution](https://en.wikipedia.org/wiki/Solid_solution) (also referred to as [alloy](https://en.wikipedia.org/wiki/Alloy) in metallurgy).
+Let's first consider the case of a single phase containing two components, $A$ and $B$. 
+This could represent either a liquid phase or a [solid solution](https://en.wikipedia.org/wiki/Solid_solution) (often referred to as an [alloy](https://en.wikipedia.org/wiki/Alloy) in metallurgy).
 
-The molar fraction of $A$ is noted $x_A$, and the one of $B$ is $x_B = 1-x_A$.
-The free energy of this system in a given phase, $\alpha$, is given by:
+The molar fraction of $A$ is denoted as $x_A$, while that of $B$ is $x_B = 1 - x_A$. 
+The free energy of this system in a given phase, $\alpha$, is expressed as:
 
 $$G^\alpha = x_A\mu_A^\alpha + x_B\mu_B^\alpha.$$
 
-Note that considering the electrochemical potential $\bar\mu_i$ instead of $\mu_i$ would not change anything here.
+Note that using the electrochemical potential, $\bar\mu_i$, instead of the chemical potential, $\mu_i$, would not change this result.
 
-The free energy of mixing is the difference between the free energy of the individual components, separated, and the one of the components mixed together as the phase $\alpha$, so:
+The free energy of mixing is the difference between the free energy of the individual components when separated and when mixed together as phase $\alpha$. This can be written as:
 
-$$\Delta G_{mix} = G^\alpha - G_A - G_B = x_A\Delta\mu_A^\alpha + x_B\Delta\mu_B^\alpha = RT(x_A\ln a^\alpha_A + x_B \ln a^\alpha_B),$$
+$$\Delta G_{mix} = G^\alpha - G_A - G_B = x_A \Delta\mu_A^\alpha + x_B \Delta\mu_B^\alpha = RT(x_A \ln a^\alpha_A + x_B \ln a^\alpha_B),$$
 
-where we have used the fact that $G_A = x_A\mu^0_A$, because the activity of $A$ in pure $A$ is obviously equal to 1.
+where we have used the fact that $G_A = x_A \mu^0_A$, since the activity of pure $A$ is equal to 1.
 
 **!! GRAPH**
 
-In ideal (or Raoultian solution, where the [Raoult's law](https://en.wikipedia.org/wiki/Raoult's_law) is valid) we can go further by assuming that $a_i = x_i$.
-Thus,
+In an ideal solution (or Raoultian solution, where [Raoult's law](https://en.wikipedia.org/wiki/Raoult's_law) holds), we assume that $a_i = x_i$, so:
 
-$$\Delta G_{mix}^{ideal} = RT[x_A\ln x_A + (1-x_A)\ln (1-x_A)] = RT\left(1+ x_A\ln\frac{x_A}{1-x_A}\right).$$
+$$\Delta G_{mix}^{ideal} = RT[x_A \ln x_A + (1 - x_A) \ln (1 - x_A)] = RT \left[\ln(1 - x_A) + x_A \ln \frac{x_A}{1 - x_A}\right].$$
 
-In this case, this is a purely entropic process, as $\Delta H_{mix}^{ideal} = \Delta G_{mix}^{ideal} + T\Delta S_{mix}^{ideal} = 0$, with:
+In this case, the mixing process is purely entropic, since $\Delta H_{mix}^{ideal} = \Delta G_{mix}^{ideal} + T \Delta S_{mix}^{ideal} = 0$, with:
 
-$$\Delta S_{mix} = \left(\frac{dG_{mix}}{dT}\right)_P = R[x_A\ln a^\alpha_A + x_B\ln a^\alpha_B].$$
+$$\Delta S_{mix} = -\left(\frac{dG_{mix}}{dT}\right)_P = -R[x_A \ln a^\alpha_A + x_B \ln a^\alpha_B].$$
 
-Obviously, this is an approximation, and the deviation from ideality is referred to as an *excess property*, $\Delta G^e_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
+This ideal solution model is an approximation, and deviations from ideal behavior are referred to as *excess properties*, such as the excess free energy of mixing, $\Delta G^e_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
 
-Surprisingly, it is actually customary to use the model of a solution to describe the process of insertion.
-As described in [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5) (and others), the variation of free energy of the material $A_xBX$ with the "concentration" of inserted compounds, can be approximated using:
+Interestingly, this model is commonly used to describe insertion processes. 
+As discussed in [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5) (and others), the variation of free energy in a material $A_xBX$ with respect to the "concentration" of inserted species can be approximated as:
 
-$$G_{A_xBX}(x) = G_{BX} + \varepsilon x +  RT\left(1+ x\ln\frac{x}{1-x}\right),$$
+$$G_{A_xBX}(x) = G_{BX} + \varepsilon x + RT\left[\ln(1 - x) + x \ln \frac{x}{1 - x}\right],$$
 
-where $\varepsilon$ is the free energy per added $A$ in the structure, with $0 \leq x \leq 1$ (the range can be more restricted if the phase change over the charging process, see below).
+where $\varepsilon$ represents the free energy per added $A$ in the structure, and $x \in [0, 1]$ (this range can be more restricted if the phase changes during the charging process, as described below). 
+Here, we recognize the entropic term of an ideal solution. 
 
+This result can also be derived from statistical mechanics, using the definition of entropy $S = k_B \ln \Omega$ (see, *e.g.*, [this reference](https://dspace.mit.edu/bitstream/handle/1721.1/100188/10-626-spring-2011/contents/lecture-notes/MIT10_626S11_lec07.pdf)).
+
+From this expression, and using $\Delta G_r = G_{A_xBX} - G_{BX}$, we can derive the variation of the potential:
+
+$$E^0 = - \frac{1}{\mathcal F}\left[\varepsilon + RT \ln \frac{x}{1 - x}\right].$$
 
 ## Sources
 
