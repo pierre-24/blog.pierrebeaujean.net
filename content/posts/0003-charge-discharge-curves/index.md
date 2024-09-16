@@ -138,7 +138,7 @@ In practice, since $\bar\mu_e^{w}$ is measured relative to a reference, $E^0$ is
 
 With those tools in hand, let's address our different charge/discharge mechanisms.
 
-### Thermodynamics of mixing into a single phase
+### Thermodynamics of mixing in a single phase
 
 Let's first consider the case of a single phase containing two components, $A$ and $B$. 
 This could represent either a liquid phase or a [solid solution](https://en.wikipedia.org/wiki/Solid_solution) (often referred to as an [alloy](https://en.wikipedia.org/wiki/Alloy) in metallurgy).
@@ -146,7 +146,7 @@ This could represent either a liquid phase or a [solid solution](https://en.wiki
 The molar fraction of $A$ is denoted as $x_A$, while that of $B$ is $x_B = 1 - x_A$. 
 The free energy of this system in a given phase, $\alpha$, is expressed as:
 
-$$G^\alpha_{AB} = x_A\mu_A^\alpha + x_B\mu_B^\alpha.$$
+$$\tag{2} G^\alpha_{AB} = x_A\mu_A^\alpha + x_B\mu_B^\alpha.$$
 
 Note that using the electrochemical potential, $\bar\mu_i$, instead of the chemical potential, $\mu_i$, would not change this result.
 
@@ -170,6 +170,7 @@ In this case, the mixing process is purely entropic, since $\Delta H_{mix}^{idea
 $$\Delta S_{mix} = -\left(\frac{dG_{mix}}{dT}\right)_P = -R[x_A \ln a^\alpha_A + x_B \ln a^\alpha_B].$$
 
 This ideal solution model is an approximation (for example, it assumes that $\mu^0_A = \mu^0_B$), and deviations from ideal behavior are referred to as *excess properties*, such as the excess free energy of mixing, $\Delta G^e_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
+If the curve above is known, it would be possible to evaluate the activity by comparing to the ideal case.
 
 Interestingly, this model is commonly used to describe insertion processes. 
 As discussed in [10.1021/ar200329r](https://pubs.acs.org/doi/10.1021/ar200329r) (and others), the free energy of material $A_xBX$ with respect to the "concentration" of inserted species can be approximated as:
@@ -194,7 +195,19 @@ $$E^0 = - \frac{1}{\mathcal F}\left[\varepsilon + RT \ln \frac{x}{1 - x} - \mu^0
 **Figure:** Evolution of the free energy of $A_xBX$ (top) and of the corresponding potential (bottom) with $x$ (inspired by [10.1021/ar200329r](https://pubs.acs.org/doi/10.1021/ar200329r)).
 The potential is proportional to $dG(x)/dx$, as illustrated here for $x=0.55$.
 
-The curve on the bottom is representative of a charging curve for a single phase.
+The curve on the bottom is therefore representative of a charging curve for a single phase.
+
+### Thermodynamic of two phases
+
+Let's now consider that there are still two components, $A$ and $B$, but that there can be two phases, say $\alpha$ and $\beta$. 
+For each of them, Eq. 2 is valid. 
+One can therefore draw curves at different temperatures and observe their evolution:
+
+![](twophase_T.png)
+
+**Figure:** Evolution of $G^\alpha$ and $G^\beta$ with the temperature, with $T_1 > T_2 > T_3$ (inspired by [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)).
+
+In addition, at equilibrium, the (electro)chemical potential of a given compound is equal, thus $\mu_A^\alpha = \mu_A^\beta$ and $\mu_B^\alpha = \mu_B^\beta$.
 
 ## Sources
 

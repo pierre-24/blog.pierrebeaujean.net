@@ -26,13 +26,13 @@ set arrow from xint,f(xint) to xint,-.7 nohead dashtype 2
 set arrow from xint,.5*xint to xint,f(xint) filled
 
 set label at -.24,0 "µ^@0_A=G_A"
-set label at -.1,(f(xint) - df(xint)*xint) "µ^@{/Symbol a}_A"
+set label at -.125,(f(xint) - df(xint)*xint) "µ^@{/Symbol a}_A"
 set label at -.075,-.4 "+ RT ln(a^@{/Symbol a}_A)" rotate by 90
 set label at 1.05,0.5 "µ^@0_B=G_B"
 set label at 1.05,(df(xint) + f(xint) - df(xint)*xint) "µ^@{/Symbol a}_B"
 set label at 1.075,-.15 "+ RT ln(a^@{/Symbol a}_B)" rotate by 90
 set label at xint,-.1 " {/Symbol D}G_{mix}"
 set label at .7,f(.7) " G^@{/Symbol a}_{AB}"
-set label at .5,.5*.5+.075 "x_A G_A + x_B G_B" rotate by 25
+set label at .5,.5*.5+.075 "x_A G_A + x_B G_B" rotate by 30
 
 plot f(x) ls 1 lw 2, .5*x ls 1 dashtype 2, (df(xint)*x + (f(xint) - df(xint)*xint)) ls 1 dashtype 4
