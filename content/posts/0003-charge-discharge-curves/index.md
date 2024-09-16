@@ -156,7 +156,10 @@ $$\Delta G_{mix} = G^\alpha_{AB} - G_A - G_B = x_A \Delta\mu_A^\alpha + x_B \Del
 
 where we have used the fact that $G_A = x_A \mu^0_A$, since the activity of pure $A$ is equal to 1.
 
-**!! GRAPH**
+![](mix.png)
+
+**Figure:** Evolution of the free energy of phase $\alpha$ with $x_A$ (inspired by [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)). 
+The tangent (dashed line) illustrates that at a given $x$ (here $x=0.4$), $G^\alpha_{AB} = x_A\mu_A^\alpha + x_B\mu_B^\alpha$, and the intercept at $x=0$ and $x=1$ provides $\mu_A^\alpha$ and $\mu_B^\alpha$, repsectively. 
 
 In an ideal solution (or Raoultian solution, where [Raoult's law](https://en.wikipedia.org/wiki/Raoult's_law) holds), we assume that $a_i = x_i$, so:
 
@@ -166,7 +169,7 @@ In this case, the mixing process is purely entropic, since $\Delta H_{mix}^{idea
 
 $$\Delta S_{mix} = -\left(\frac{dG_{mix}}{dT}\right)_P = -R[x_A \ln a^\alpha_A + x_B \ln a^\alpha_B].$$
 
-This ideal solution model is an approximation, and deviations from ideal behavior are referred to as *excess properties*, such as the excess free energy of mixing, $\Delta G^e_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
+This ideal solution model is an approximation (for example, it assumes that $\mu^0_A = \mu^0_B$), and deviations from ideal behavior are referred to as *excess properties*, such as the excess free energy of mixing, $\Delta G^e_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
 
 Interestingly, this model is commonly used to describe insertion processes. 
 As discussed in [10.1021/ar200329r](https://pubs.acs.org/doi/10.1021/ar200329r) (and others), the free energy of material $A_xBX$ with respect to the "concentration" of inserted species can be approximated as:
@@ -186,11 +189,16 @@ From this expression, and using the Nernst equation, we can derive the variation
 
 $$E^0 = - \frac{1}{\mathcal F}\left[\varepsilon + RT \ln \frac{x}{1 - x} - \mu^0_{A}\right].$$
 
-**!! GRAPH**
+![](insertion.png)
+
+**Figure:** Evolution of the free energy of $A_xBX$ (top) and of the corresponding potential (bottom) with $x$ (inspired by [10.1021/ar200329r](https://pubs.acs.org/doi/10.1021/ar200329r)).
+The potential is proportional to $dG(x)/dx$, as illustrated here for $x=0.55$.
+
+The curve on the bottom is representative of a charging curve for a single phase.
 
 ## Sources
 
 + *Advanced Batteries (Materials Science Aspects)* (book), [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5).
-+ *Physical metallurgy* (book), [10.1016/C2010-0-65716-6](https://doi.org/10.1016/C2010-0-65716-6).
++ Chapter 3 of *Physical metallurgy* (book), [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4).
 + *Potentially Confusing: Potentials in Electrochemistry*, [10.1021/acsenergylett.0c02443](https://dx.doi.org/10.1021/acsenergylett.0c02443).
 + *Understanding Li Diffusion in Li-Intercalation Compounds*, [10.1021/ar200329r](https://pubs.acs.org/doi/10.1021/ar200329r).
