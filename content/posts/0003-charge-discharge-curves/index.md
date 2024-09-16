@@ -138,7 +138,7 @@ In practice, since $\bar\mu_e^{w}$ is measured relative to a reference, $E^0$ is
 
 With those tools in hand, let's address our different charge/discharge mechanisms.
 
-### Thermodynamics of Mixing into a Single Phase
+### Thermodynamics of mixing into a single phase
 
 Let's first consider the case of a single phase containing two components, $A$ and $B$. 
 This could represent either a liquid phase or a [solid solution](https://en.wikipedia.org/wiki/Solid_solution) (often referred to as an [alloy](https://en.wikipedia.org/wiki/Alloy) in metallurgy).
@@ -146,13 +146,13 @@ This could represent either a liquid phase or a [solid solution](https://en.wiki
 The molar fraction of $A$ is denoted as $x_A$, while that of $B$ is $x_B = 1 - x_A$. 
 The free energy of this system in a given phase, $\alpha$, is expressed as:
 
-$$G^\alpha = x_A\mu_A^\alpha + x_B\mu_B^\alpha.$$
+$$G^\alpha_{AB} = x_A\mu_A^\alpha + x_B\mu_B^\alpha.$$
 
 Note that using the electrochemical potential, $\bar\mu_i$, instead of the chemical potential, $\mu_i$, would not change this result.
 
 The free energy of mixing is the difference between the free energy of the individual components when separated and when mixed together as phase $\alpha$. This can be written as:
 
-$$\Delta G_{mix} = G^\alpha - G_A - G_B = x_A \Delta\mu_A^\alpha + x_B \Delta\mu_B^\alpha = RT(x_A \ln a^\alpha_A + x_B \ln a^\alpha_B),$$
+$$\Delta G_{mix} = G^\alpha_{AB} - G_A - G_B = x_A \Delta\mu_A^\alpha + x_B \Delta\mu_B^\alpha = RT(x_A \ln a^\alpha_A + x_B \ln a^\alpha_B),$$
 
 where we have used the fact that $G_A = x_A \mu^0_A$, since the activity of pure $A$ is equal to 1.
 
@@ -160,7 +160,7 @@ where we have used the fact that $G_A = x_A \mu^0_A$, since the activity of pure
 
 In an ideal solution (or Raoultian solution, where [Raoult's law](https://en.wikipedia.org/wiki/Raoult's_law) holds), we assume that $a_i = x_i$, so:
 
-$$\Delta G_{mix}^{ideal} = RT[x_A \ln x_A + (1 - x_A) \ln (1 - x_A)] = RT \left[\ln(1 - x_A) + x_A \ln \frac{x_A}{1 - x_A}\right].$$
+$$\Delta G_{mix}^{ideal} = RT[x_A \ln x_A + (1 - x_A) \ln (1 - x_A)]$$
 
 In this case, the mixing process is purely entropic, since $\Delta H_{mix}^{ideal} = \Delta G_{mix}^{ideal} + T \Delta S_{mix}^{ideal} = 0$, with:
 
@@ -169,18 +169,24 @@ $$\Delta S_{mix} = -\left(\frac{dG_{mix}}{dT}\right)_P = -R[x_A \ln a^\alpha_A +
 This ideal solution model is an approximation, and deviations from ideal behavior are referred to as *excess properties*, such as the excess free energy of mixing, $\Delta G^e_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
 
 Interestingly, this model is commonly used to describe insertion processes. 
-As discussed in [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5) (and others), the variation of free energy in a material $A_xBX$ with respect to the "concentration" of inserted species can be approximated as:
+As discussed in [10.1021/ar200329r](https://pubs.acs.org/doi/10.1021/ar200329r) (and others), the free energy of material $A_xBX$ with respect to the "concentration" of inserted species can be approximated as:
 
-$$G_{A_xBX}(x) = G_{BX} + \varepsilon x + RT\left[\ln(1 - x) + x \ln \frac{x}{1 - x}\right],$$
+$$G_{A_xBX}(x) = G_{BX} + \varepsilon x + RT[x \ln x + (1 - x) \ln (1 - x)],$$
 
-where $\varepsilon$ represents the free energy per added $A$ in the structure, and $x \in [0, 1]$ (this range can be more restricted if the phase changes during the charging process, as described below). 
+where $\varepsilon$ represents the free energy per added $A$ in the structure, and $x \in [0, 1]$ is the molar fraction of $A$ in $A_xBX$ (and thus $1-x$ is the fraction of holes). 
+This range can be more restricted if the phase changes during the charging process, as described below. 
 Here, we recognize the entropic term of an ideal solution. 
+The corresponding elechtrochemical potential is:
 
-This result can also be derived from statistical mechanics, using the definition of entropy $S = k_B \ln \Omega$ (see, *e.g.*, [this reference](https://dspace.mit.edu/bitstream/handle/1721.1/100188/10-626-spring-2011/contents/lecture-notes/MIT10_626S11_lec07.pdf)).
+$$\bar\mu_{A_xBX} = \frac{dG_{A_xBX}}{dx} + z\mathcal F\phi  =  \varepsilon + RT\ln\frac{x}{1-x} + z\mathcal F\phi.$$
 
-From this expression, and using $\Delta G_r = G_{A_xBX} - G_{BX}$, we can derive the variation of the potential:
+This result can also be derived from statistical mechanics, using the definition of entropy $S = k_B \ln \Omega$ (see, *e.g.*, [this document](https://dspace.mit.edu/bitstream/handle/1721.1/100188/10-626-spring-2011/contents/lecture-notes/MIT10_626S11_lec07.pdf)).
 
-$$E^0 = - \frac{1}{\mathcal F}\left[\varepsilon + RT \ln \frac{x}{1 - x}\right].$$
+From this expression, and using the Nernst equation, we can derive the variation of the potential:
+
+$$E^0 = - \frac{1}{\mathcal F}\left[\varepsilon + RT \ln \frac{x}{1 - x} - \mu^0_{A}\right].$$
+
+**!! GRAPH**
 
 ## Sources
 
