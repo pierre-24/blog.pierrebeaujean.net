@@ -1,4 +1,4 @@
-set term pngcairo enhanced font 'Helvetica,20' size 600,700 dashed
+set term pngcairo enhanced font 'Helvetica,12' size 600,700 dashed
 set output "insertion.png"
 
 set multiplot layout 2,1
@@ -31,6 +31,9 @@ set ylabel "Potential, E^0"
 set xlabel "x"
 set yrange [-5:5]
 
-set label at xint,-df(xint) "•" center
+set label at xint,-df(xint) "•" center font ",16"
+
+set label at graph 0,-.12 "BX" center font ",16"
+set label at graph 1,-.12 "ABX" center font ",16"
 
 plot -df(x) ls 1 lw 2

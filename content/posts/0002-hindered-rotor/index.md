@@ -371,9 +371,11 @@ This time, when $T$ is high (and thus $V_0'$ is comparable to $k_BT$), both mode
 
 While not dramatic (up to 10 kJ mol⁻¹ in some cases), the FR/HR correction can become significant when the energy of the reaction is close to zero.
 
-## Some literature
+## Sources
 
 + *Statistical Thermodynamics for Pure and Applied Sciences* (book), [10.1007/978-3-030-52006-9](https://dx.doi.org/10.1007/978-3-030-52006-9)
 + *The hindered rotor theory: A review*, [10.1002/wcms.1583](https://doi.org/10.1002/wcms.1583).
 + *Solution of the Schrödinger Equation for One-Dimensional Anharmonic Potentials: An Undergraduate Computational Experiment*, [10.1021/ed1000137](https://dx.doi.org/10.1021/ed1000137).
 + *Hindered Translator and Hindered Rotor Models for Adsorbates: Partition Functions and Entropies*, [10.1021/acs.jpcc.5b11616](https://dx.doi.org/10.1021/acs.jpcc.5b11616).
+
+The codes of this post are available here: <https://github.com/pierre-24/blog.pierrebeaujean.net/tree/master/content/posts/0002-hindered-rotor>.

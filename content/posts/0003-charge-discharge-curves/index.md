@@ -159,7 +159,7 @@ where we have used the fact that $G_A = x_A \mu^0_A$, since the activity of pure
 ![](mix.png)
 
 **Figure:** Evolution of the free energy of phase $\alpha$ with $x_A$ (inspired by [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)). 
-The tangent (dashed line) illustrates that at a given $x$ (here $x=0.4$), $G^\alpha_{AB} = x_A\mu_A^\alpha + x_B\mu_B^\alpha$, and the intercept at $x=0$ and $x=1$ provides $\mu_A^\alpha$ and $\mu_B^\alpha$, repsectively. 
+The tangent (dashed line) illustrates that at a given $x$ (here $x=0.4$), $G^\alpha_{AB} = x_A\mu_A^\alpha + x_B\mu_B^\alpha$, and the intercept at $x=0$ and $x=1$ provides $\mu_A^\alpha$ and $\mu_B^\alpha$, respectively. 
 
 In an ideal solution (or Raoultian solution, where [Raoult's law](https://en.wikipedia.org/wiki/Raoult's_law) holds), we assume that $a_i = x_i$, so:
 
@@ -203,9 +203,9 @@ Now, let's consider a system with two components, $A$ and $B$, but with two poss
 For each phase, the free energy equation (as derived previously) is valid. 
 By plotting the free energy as a function of composition at different temperatures, we can observe interesting trends in phase stability:
 
-![](twophase_T.png)
+![](twophase_T.svg)
 
-**Figure:** Evolution of $G^\alpha_{AB}$ and $G^\beta_{AB}$ with temperature, assuming $T_1 > T_2 > T_3$ (adapted from [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)). 
+**Figure:** Evolution of $G^\alpha_{AB}$ (red curve) and $G^\beta_{AB}$ (blue curve) with temperature, assuming $T_1 > T_2 > T_3$ (adapted from [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)). 
 The common tangent for $T_2$ and $T_3$ indicates points where the chemical potentials of a given component in $\alpha$ and $\beta$ are equal (discussed below).
 
 **Observations:**
@@ -213,9 +213,9 @@ The common tangent for $T_2$ and $T_3$ indicates points where the chemical poten
 1. **At $T_1$:** The free energy of the $\beta$ phase, $G^\beta$, is lower than that of $\alpha$, $G^\alpha$, at all values of $x_A$. 
    Therefore, the $\beta$ phase is more stable across all compositions, and the system behaves as described for a single phase.
 2. **At $T_2 < T_1$:** The curves for $G^\alpha$ and $G^\beta$ intersect. 
-   This indicates that between $x_A = 0$ and $x_A = P_1$, the $\alpha$ phase is more stable, while between $x_A = Q_1$ and $x_A = 1$, the $\beta$ phase is more stable. 
+   This indicates that between $x_A = 0$ and $x_A = P_1$, the $\beta$ phase is more stable, while between $x_A = Q_1$ and $x_A = 1$, the $\alpha$ phase is more stable. 
    In the region between $P_1$ and $Q_1$, a two-phase equilibrium exists, and the true minimum free energy lies along the common tangent connecting $P_1$ and $Q_1$, since this line is more stable than either phase alone.
-3. **At $T_3 < T_2$:** The two-phase equilibrium extends over a larger range, from $P_2$ to $Q_2$.
+3. **At $T_3 < T_2$:** The two-phase equilibrium extends over a different range, from $P_2$ to $Q_2$.
 
 At equilibrium, the (electro)chemical potential of a given component must be equal across the two phases. This condition is expressed as:
 
@@ -231,8 +231,8 @@ which simplifies to:
 
 $$RT \ln \frac{a_A^\alpha}{a_A^\beta} = \Delta G^{0,\alpha \rightarrow \beta}_A,$$
 
-where $\Delta G^{0,\alpha \rightarrow \beta}_A = \mu_A^{0,\beta} - \mu_A^{0,\alpha}$. 
-This is represented by the arrows in the figure above, and a similar expression holds for $B$.
+where $\Delta G^{0,\alpha \rightarrow \beta}_A = \mu_A^{0,\beta} - \mu_A^{0,\alpha}$.
+This is the equation that provides the $P_1Q_1$ and $P_2Q_2$ tangent in the diagram above.
 
 If we assume an ideal solution (i.e., $a_i = x_i$), then:
 
@@ -249,7 +249,29 @@ x_A^\beta &= \frac{\exp\left(\frac{\Delta G^{0,\alpha \rightarrow \beta}_B}{RT}\
 $$
 
 It's important to note that $\Delta G^{0,\alpha \rightarrow \beta}_i = \Delta H^{0,\alpha \rightarrow \beta}_i - T \Delta S^{0,\alpha \rightarrow \beta}_i$, meaning that $\Delta G^{0,\alpha \rightarrow \beta}_i$ depends on temperature, while $\Delta H^{0,\alpha \rightarrow \beta}_i$ and $\Delta S^{0,\alpha \rightarrow \beta}_i$ can be approximated as temperature-independent.
-Furthermore, $\Delta G^{0,\alpha \rightarrow \beta}_i = 0$ at the temperature of phase transition, $T_t$, so $\Delta H^{0,\alpha \rightarrow \beta}_i = T_t\Delta S^{0,\alpha \rightarrow \beta}_i$.
+Furthermore, $\Delta G^{0,\alpha \rightarrow \beta}_i = 0$ at the temperature of phase transition, $T_i^{\alpha\rightarrow\beta}$, so in first approximation, $\Delta H^{0,\alpha \rightarrow \beta}_i = T_i^{\alpha\rightarrow\beta}\Delta S^{0,\alpha \rightarrow \beta}_i$.
+
+By computing $x_A^\alpha$ and $x_A^\beta$ for a set of temperature, one can mark the limit between the one-phase and the two-phases region.
+Plotted in the form of composition versus temperature, this provides a binary phase diagram:
+
+![](twophase_Tx.svg)
+
+**Figure:** Evolution of $G^\alpha_{AB}$ (red curve) and $G^\beta_{AB}$ (blue curve) at a given temperature (top) and corresponding binary phase diagram (bottom).
+The dashed line in the phase diagram corresponds to the temperature at which the curves on the top are computed, and the limit of the two-phase system are given by the common tangent.
+
+This is a prototypical phase diagram: at $T>T_A^{\alpha\rightarrow\beta}$, $\beta$ is the only phase for all $x$, while at $T<T_B^{\alpha\rightarrow\beta}$, $\alpha$ is the only phase.
+Between these, the number of phase is delimited by the blue and the red line.
+Note that in this two-phase $\alpha+\beta$ system, the composition is given by the [lever rule](https://en.wikipedia.org/wiki/Lever_rule).
+
+Before going back to phase diagrams (which are, in the end, what is relevant), let's have a look at the evolution of the potential with $x_A$.
+Taking the derivative, one gets:
+
+![](twophase_E0.svg)
+
+**Figure:** Evolution of the free energy (top) and of the corresponding potential (bottom) with $x_A$.
+The two-phase part is characterized by a plateau in the evolution of the potential.
+
+Thus, contrary to the S-shape obtained above for a single phase, a two-phase system is characterized by a **plateau**.
 
 ## Phase diagrams
 
@@ -262,3 +284,5 @@ Furthermore, $\Delta G^{0,\alpha \rightarrow \beta}_i = 0$ at the temperature of
 + Chapter 3 of *Physical metallurgy* (book), [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4).
 + *Potentially Confusing: Potentials in Electrochemistry*, [10.1021/acsenergylett.0c02443](https://dx.doi.org/10.1021/acsenergylett.0c02443).
 + *Understanding Li Diffusion in Li-Intercalation Compounds*, [10.1021/ar200329r](https://pubs.acs.org/doi/10.1021/ar200329r).
+
+The codes of this post are available here: <https://github.com/pierre-24/blog.pierrebeaujean.net/tree/master/content/posts/0003-charge-discharge-curves>.
