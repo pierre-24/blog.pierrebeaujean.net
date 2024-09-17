@@ -185,7 +185,6 @@ The corresponding elechtrochemical potential is:
 $$\bar\mu_{A_xBX} = \frac{dG_{A_xBX}}{dx} + z\mathcal F\phi  =  \varepsilon + RT\ln\frac{x}{1-x} + z\mathcal F\phi.$$
 
 This result can also be derived from statistical mechanics, using the definition of entropy $S = k_B \ln \Omega$ (see, *e.g.*, [this document](https://dspace.mit.edu/bitstream/handle/1721.1/100188/10-626-spring-2011/contents/lecture-notes/MIT10_626S11_lec07.pdf)).
-Note also that in this case, the excess property is given by $\mu^E = -RT\ln(1-x)$.
 
 From this expression, and using the Nernst equation, we can derive the variation of the potential:
 
@@ -250,6 +249,7 @@ x_A^\beta &= \frac{\exp\left(\frac{\Delta G^{0,\alpha \rightarrow \beta}_B}{RT}\
 $$
 
 It's important to note that $\Delta G^{0,\alpha \rightarrow \beta}_i = \Delta H^{0,\alpha \rightarrow \beta}_i - T \Delta S^{0,\alpha \rightarrow \beta}_i$, meaning that $\Delta G^{0,\alpha \rightarrow \beta}_i$ depends on temperature, while $\Delta H^{0,\alpha \rightarrow \beta}_i$ and $\Delta S^{0,\alpha \rightarrow \beta}_i$ can be approximated as temperature-independent.
+Furthermore, $\Delta G^{0,\alpha \rightarrow \beta}_i = 0$ at the temperature of phase transition, $T_t$, so $\Delta H^{0,\alpha \rightarrow \beta}_i = T_t\Delta S^{0,\alpha \rightarrow \beta}_i$.
 
 ## Phase diagrams
 
