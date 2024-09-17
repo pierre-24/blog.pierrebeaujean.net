@@ -169,7 +169,7 @@ In this case, the mixing process is purely entropic, since $\Delta H_{mix}^{idea
 
 $$\Delta S_{mix} = -\left(\frac{dG_{mix}}{dT}\right)_P = -R[x_A \ln a^\alpha_A + x_B \ln a^\alpha_B].$$
 
-This ideal solution model is an approximation (for example, it assumes that $\mu^0_A = \mu^0_B$), and deviations from ideal behavior are referred to as *excess properties*, such as the excess free energy of mixing, $\Delta G^e_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
+This ideal solution model is an approximation, and deviations from ideal behavior are referred to as *excess properties*, such as the excess free energy of mixing, $\Delta G^E_{mix} = \Delta G_{mix} - \Delta G_{mix}^{ideal}$.
 If the curve above is known, it would be possible to evaluate the activity by comparing to the ideal case.
 
 Interestingly, this model is commonly used to describe insertion processes. 
@@ -185,6 +185,7 @@ The corresponding elechtrochemical potential is:
 $$\bar\mu_{A_xBX} = \frac{dG_{A_xBX}}{dx} + z\mathcal F\phi  =  \varepsilon + RT\ln\frac{x}{1-x} + z\mathcal F\phi.$$
 
 This result can also be derived from statistical mechanics, using the definition of entropy $S = k_B \ln \Omega$ (see, *e.g.*, [this document](https://dspace.mit.edu/bitstream/handle/1721.1/100188/10-626-spring-2011/contents/lecture-notes/MIT10_626S11_lec07.pdf)).
+Note also that in this case, the excess property is given by $\mu^E = -RT\ln(1-x)$.
 
 From this expression, and using the Nernst equation, we can derive the variation of the potential:
 
@@ -197,17 +198,63 @@ The potential is proportional to $dG(x)/dx$, as illustrated here for $x=0.55$.
 
 The curve on the bottom is therefore representative of a charging curve for a single phase.
 
-### Thermodynamic of two phases
+### Thermodynamics of two phases
 
-Let's now consider that there are still two components, $A$ and $B$, but that there can be two possible phases, say $\alpha$ and $\beta$. 
-For each of them, Eq. 2 is valid. 
-One can therefore draw curves at different temperatures and observe their evolution:
+Now, let's consider a system with two components, $A$ and $B$, but with two possible phases, $\alpha$ and $\beta$. 
+For each phase, the free energy equation (as derived previously) is valid. 
+By plotting the free energy as a function of composition at different temperatures, we can observe interesting trends in phase stability:
 
 ![](twophase_T.png)
 
-**Figure:** Evolution of $G^\alpha_{AB}$ and $G^\beta_{AB}$ with the temperature, assuming $T_1 > T_2 > T_3$ (inspired by [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)).
+**Figure:** Evolution of $G^\alpha_{AB}$ and $G^\beta_{AB}$ with temperature, assuming $T_1 > T_2 > T_3$ (adapted from [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)). 
+The common tangent for $T_2$ and $T_3$ indicates points where the chemical potentials of a given component in $\alpha$ and $\beta$ are equal (discussed below).
 
-In addition, at equilibrium, the (electro)chemical potential of a given compound is equal, thus $\mu_A^\alpha = \mu_A^\beta$ and $\mu_B^\alpha = \mu_B^\beta$.
+**Observations:**
+
+1. **At $T_1$:** The free energy of the $\beta$ phase, $G^\beta$, is lower than that of $\alpha$, $G^\alpha$, at all values of $x_A$. 
+   Therefore, the $\beta$ phase is more stable across all compositions, and the system behaves as described for a single phase.
+2. **At $T_2 < T_1$:** The curves for $G^\alpha$ and $G^\beta$ intersect. 
+   This indicates that between $x_A = 0$ and $x_A = P_1$, the $\alpha$ phase is more stable, while between $x_A = Q_1$ and $x_A = 1$, the $\beta$ phase is more stable. 
+   In the region between $P_1$ and $Q_1$, a two-phase equilibrium exists, and the true minimum free energy lies along the common tangent connecting $P_1$ and $Q_1$, since this line is more stable than either phase alone.
+3. **At $T_3 < T_2$:** The two-phase equilibrium extends over a larger range, from $P_2$ to $Q_2$.
+
+At equilibrium, the (electro)chemical potential of a given component must be equal across the two phases. This condition is expressed as:
+
+$$\mu_A^\alpha = \mu_A^\beta \quad \text{and} \quad \mu_B^\alpha = \mu_B^\beta.$$
+
+This is illustrated by the common tangent between $P_1$ and $Q_1$ (and similarly between $P_2$ and $Q_2$). 
+At $x_A = P_1$, the (electro)chemical potential of $A$ in phase $\alpha$ is equal to that in phase $\beta$ at $x_A = Q_1$. 
+At a given temperature, for the two-phase system:
+
+$$\mu_A^\alpha = \mu_A^\beta \Leftrightarrow \mu_A^{0,\alpha} + RT\ln a_A^{\alpha} = \mu_A^{0,\beta} + RT\ln a_A^{\beta},$$
+
+which simplifies to:
+
+$$RT \ln \frac{a_A^\alpha}{a_A^\beta} = \Delta G^{0,\alpha \rightarrow \beta}_A,$$
+
+where $\Delta G^{0,\alpha \rightarrow \beta}_A = \mu_A^{0,\beta} - \mu_A^{0,\alpha}$. 
+This is represented by the arrows in the figure above, and a similar expression holds for $B$.
+
+If we assume an ideal solution (i.e., $a_i = x_i$), then:
+
+$$\frac{x_A^\alpha}{x_A^\beta} = \exp\left(\frac{\Delta G^{0,\alpha \rightarrow \beta}_A}{RT}\right), \quad \frac{1 - x_A^\alpha}{1 - x_A^\beta} = \exp\left(\frac{\Delta G^{0,\alpha \rightarrow \beta}_B}{RT}\right).$$
+
+Here, $x_A^\alpha$ is the molar fraction of $A$ in phase $\alpha$, and $x_A^\beta$ is the molar fraction of $A$ in phase $\beta$. 
+Solving this system gives both $x_A^\alpha$ and $x_A^\beta$ at any temperature:
+
+$$
+\begin{aligned}
+x_A^\alpha &= x_A^\beta \exp\left(\frac{\Delta G^{0,\alpha \rightarrow \beta}_A}{RT}\right), \\\\
+x_A^\beta &= \frac{\exp\left(\frac{\Delta G^{0,\alpha \rightarrow \beta}_B}{RT}\right) - 1}{\exp\left(\frac{\Delta G^{0,\alpha \rightarrow \beta}_B}{RT}\right) - \exp\left(\frac{\Delta G^{0,\alpha \rightarrow \beta}_A}{RT}\right)}.
+\end{aligned}
+$$
+
+It's important to note that $\Delta G^{0,\alpha \rightarrow \beta}_i = \Delta H^{0,\alpha \rightarrow \beta}_i - T \Delta S^{0,\alpha \rightarrow \beta}_i$, meaning that $\Delta G^{0,\alpha \rightarrow \beta}_i$ depends on temperature, while $\Delta H^{0,\alpha \rightarrow \beta}_i$ and $\Delta S^{0,\alpha \rightarrow \beta}_i$ can be approximated as temperature-independent.
+
+## Phase diagrams
+
++ Gibbs phase rules.
++ Relationship between the number of phases and the shape of the curve.
 
 ## Sources
 

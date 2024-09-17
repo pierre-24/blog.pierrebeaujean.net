@@ -30,6 +30,7 @@ set label 2 at .8,fbeta(.8,10) "  G^@{/Symbol b}_{AB}" tc "red"
 
 T=10
 
+set arrow 1 from -.02,0 to -.02,dGt(T) filled
 set label 3 at -.15,0 "µ^@{0,{/Symbol a}}_A"
 set label 4 at 1.03,.5 "µ^@{0,{/Symbol a}}_B"
 set label 5 at -.15,dGt(T) "µ^@{0,{/Symbol b}}_A" tc "red"
@@ -47,6 +48,7 @@ set yrange[-.65:.5]
 set bmargin 1.5
 set tmargin 1.5
 
+set arrow 1 from -.02,0 to -.02,dGt(T) filled
 set label 5 at -.15,dGt(T)
 set label 6 at 1.03,-.5+dGt(T)
 set label 9 "T_2"
@@ -68,7 +70,6 @@ set format x "%.1f"
 set yrange[-.22:.6]
 
 set arrow 1 from -.02,0 to -.02,dGt(T) filled
-set arrow 2 from 1.02,.5 to 1.02,-.5+dGt(T) filled
 set label 5 at -.15,dGt(T)
 set label 6 at 1.03,-.5+dGt(T)
 
@@ -76,7 +77,6 @@ set label 10 at .33,falpha(.33,T) "•\nP_2" center
 set label 11 at .8,fbeta(.8,T) "•\nQ_2" center
 
 set label 12 at -.075,.15 "{/Symbol D}G^@{0,{/Symbol a}→{/Symbol b}}_A" rotate by 90
-set label 13 at 1.075,.42 "{/Symbol D}G^@{0,{/Symbol a}→{/Symbol b}}_B" rotate by -90
 set label 9 "T_3"
 
 xint=.34
