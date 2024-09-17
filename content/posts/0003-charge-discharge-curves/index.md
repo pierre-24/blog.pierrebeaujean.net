@@ -199,13 +199,13 @@ The curve on the bottom is therefore representative of a charging curve for a si
 
 ### Thermodynamic of two phases
 
-Let's now consider that there are still two components, $A$ and $B$, but that there can be two phases, say $\alpha$ and $\beta$. 
+Let's now consider that there are still two components, $A$ and $B$, but that there can be two possible phases, say $\alpha$ and $\beta$. 
 For each of them, Eq. 2 is valid. 
 One can therefore draw curves at different temperatures and observe their evolution:
 
 ![](twophase_T.png)
 
-**Figure:** Evolution of $G^\alpha$ and $G^\beta$ with the temperature, with $T_1 > T_2 > T_3$ (inspired by [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)).
+**Figure:** Evolution of $G^\alpha_{AB}$ and $G^\beta_{AB}$ with the temperature, assuming $T_1 > T_2 > T_3$ (inspired by [10.1016/B978-0-444-53770-6.00003-4](https://doi.org/10.1016/B978-0-444-53770-6.00003-4)).
 
 In addition, at equilibrium, the (electro)chemical potential of a given compound is equal, thus $\mu_A^\alpha = \mu_A^\beta$ and $\mu_B^\alpha = \mu_B^\beta$.
 
