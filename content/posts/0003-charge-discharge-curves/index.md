@@ -275,8 +275,19 @@ Thus, contrary to the S-shape obtained above for a single phase, a two-phase sys
 
 ## Phase diagrams
 
-+ Gibbs phase rules.
-+ Relationship between the number of phases and the shape of the curve.
+The thermodynamic behavior seen above are embedded in the *Gibbs phase rule*, which applies to any system at equilibrium.
+Because of the equilibrium in chemical potential, at each point of a phase diagram, one has:
+
+$$F=C-P+2,$$
+
+where:
+
++ $C$ is the number of components, *i.e.*, the number of substance required to fully describe the composition of each phase (so far, we have considered $C=2$),
++ $P$ is the number of phase, and
++ $F$ is the number of degree of freedom or *variance* of the system.
+
+If we consider the phase diagram given above, in the $\alpha$ and $\beta$ phases, $P=1$ and so $F=3$.
+On the other hand, in the $\alpha+\beta$ two-phase system, $P=2$ and thus $F=2$.
 
 ## Sources
 
