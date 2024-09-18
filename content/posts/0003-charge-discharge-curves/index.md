@@ -1,8 +1,8 @@
 ---
 title: "Understanding the charge/discharge curve of batteries"
-date: 2024-09-12T09:03:20+02:00
-draft: true
-tldr: These curves give information about the cathode/anode materials.
+date: 2024-09-18T11:40:00+02:00
+draft: false
+tldr: These curves give information about the cathode/anode materials in the charge/discharge process.
 tags: 
 - lang:en
 - quantum chemistry
@@ -341,7 +341,6 @@ But that's a topic for another day! 😉
 ![](c-rate.png)
 
 **Figure:** Evolution of the charge/discharge curve with the C-rate, from [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5).
-
 
 ## Sources
 
