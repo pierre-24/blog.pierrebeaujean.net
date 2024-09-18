@@ -9,6 +9,11 @@ tags:
 - batteries
 ---
 
+The charge/discharge curves are invaluable tools for investigating batteries and are part of the "standard set" of measurements when comparing a new, promising battery to existing ones. 
+However, as a theoretical chemist not deeply immersed in electrochemistry, I initially found this concept a bit confusing. 
+So, I decided to dig a little deeper.
+
+
 ## Introduction
 
 Following [10.1007/978-0-387-76424-5](https://dx.doi.org/10.1007/978-0-387-76424-5), in first approximation, a battery can actually be modeled as a simple reaction between two metallic materials, $A$ and $B$, reacting for example as $A + B \rightarrow AB$.
