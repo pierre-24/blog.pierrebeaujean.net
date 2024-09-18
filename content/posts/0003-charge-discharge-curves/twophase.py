@@ -71,6 +71,8 @@ plt.tight_layout()
 
 figure.savefig('twophase_T.svg')
 
+# ---
+
 figure = plt.figure(figsize=(5, 7))
 ax1, ax2 = figure.subplots(2, sharex=True)
 
@@ -85,6 +87,8 @@ xy0=x_A_alpha[2], G_AB_alpha(x_A_alpha[2], Tx)
 xy1=x_A_beta[2], G_AB_beta(x_A_beta[2], Tx)
 ax1.plot(*xy0, 'ko')
 ax1.plot(*xy1, 'ko')
+ax1.text(*xy0, '$Q_2$', fontsize=16, va='bottom')
+ax1.text(*xy1, '$P_2$', fontsize=16, va='bottom')
 
 ax1.set(yticklabels=[])
 ax1.tick_params(left=False)  # remove the ticks
@@ -127,6 +131,8 @@ ax1.text(.8, G_AB_beta(.8, Tx), '$G_{AB}^{\\beta}$  ', fontsize=16, color='b', h
 
 ax1.plot(*xy0, 'ko')
 ax1.plot(*xy1, 'ko')
+ax1.text(*xy0, '$Q_2$', fontsize=16, va='bottom')
+ax1.text(*xy1, '$P_2$', fontsize=16, va='bottom')
 
 ax1.set(yticklabels=[])
 ax1.tick_params(left=False)  # remove the ticks
@@ -144,6 +150,8 @@ ax2.add_artist(ConnectionPatch(xyA=xy0, coordsA=ax1.transData, xyB=(xy0[0], Tx),
 ax2.add_artist(ConnectionPatch(xyA=xy1, coordsA=ax1.transData, xyB=(xy1[0], Tx), coordsB=ax2.transData))
 ax2.plot(xy0[0], Tx, 'ko')
 ax2.plot(xy1[0], Tx, 'ko')
+ax2.text(xy0[0], Tx, '$Q_2$', fontsize=16, va='top')
+ax2.text(xy1[0], Tx, '$P_2$', fontsize=16, va='top')
 
 ax2.set_xlim(0, 1)
 ax2.set_xlabel('molar fraction, $x_A$')
