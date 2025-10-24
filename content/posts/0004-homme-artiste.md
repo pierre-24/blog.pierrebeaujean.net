@@ -4,6 +4,7 @@ date: 2025-07-15T12:16:01+02:00
 draft: false
 tags: 
 - lang:fr
+- fange nombriliste
 ---
 
 *Préambule : ceci est mon avis, mon mien à moi. Avis que j’ai construit au fil de mes propres questionnements internes et réflexions. Manifestement, je n’arrive pas aux mêmes conclusions que d’autres de mes contemporains, qui en connaissent pourtant un rayon, donc c’est que je dois me tromper quelque part. Du coup, si vous avez des commentaires constructifs, contactez-moi, je vous promets que je vous lirai :)*
