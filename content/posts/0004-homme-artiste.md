@@ -7,9 +7,7 @@ tags:
 - fange nombriliste
 ---
 
-*Préambule : ceci est mon avis, mon mien à moi. Avis que j’ai construit au fil de mes propres questionnements internes et réflexions. Manifestement, je n’arrive pas aux mêmes conclusions que d’autres de mes contemporains, qui en connaissent pourtant un rayon, donc c’est que je dois me tromper quelque part. Du coup, si vous avez des commentaires constructifs, contactez-moi, je vous promets que je vous lirai :)*
-
-**Note:** ce texte a été mis à jour le 24 octobre après avoir continué à avoir réfléchi. Mais par transparence, je vous rappelle que vous pouvez en retrouver la précédente version sur le GitHub associé, [ici](https://github.com/pierre-24/blog.pierrebeaujean.net/blob/998add7158e2371ec767298f436ea30ccc624e24/content/posts/0004-homme-artiste.md).
+{{< callout type="tip" text="Ceci est un post de la catégorie 'fange nombriliste', ou j'essaye d'explorer des thématiques politiques qui m'animent. Toute critique (constructive) est la bienvenue." >}}
 
 Récemment, je suis tombé sur une série de posts sur Bluesky de personnalités qui expliquaient qu’avoir lu *Harry Potter* était quelque chose qu’ils/elles regrettaient. Pour certains, qu’ils ne souhaitaient pas que leurs enfants ou d’autres personnes le lisent. Et après réflexion, bien que je comprenne, ce n’est pas quelque chose avec lequel je suis forcément d’accord. Je vais essayer d’expliquer pourquoi ci-dessous, tout en essayant d’avancer avec toutes les précautions nécessaires qui m’éviteront de me faire accuser de choses que je ne penserais pas. Exercice difficile, mais allons-y.
 
@@ -86,4 +84,8 @@ De manière générale, on sait très bien que la censure, quel que soit son bor
 -----
 
 Et vous savez le pire dans cette histoire ? Bah, comme je l’ai dit plus haut, je n’apprécie plus forcément *Harry Potter* en tant qu’œuvre, indépendamment de son autrice. Néanmoins, vous aurez compris que l’exercice est plus large que ça. Merci de m’avoir lu, et encore une fois, toute critique constructive sera bien reçue et appréciée à sa juste valeur ;)
+
+
+
+**Note:** ce texte a été mis à jour le 24 octobre après avoir continué à avoir réfléchi. Mais par transparence, je vous rappelle que vous pouvez en retrouver la précédente version sur le GitHub associé, [ici](https://github.com/pierre-24/blog.pierrebeaujean.net/blob/998add7158e2371ec767298f436ea30ccc624e24/content/posts/0004-homme-artiste.md).
 
