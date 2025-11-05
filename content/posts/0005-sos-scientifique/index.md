@@ -7,8 +7,10 @@ tags:
 - fange nombriliste
 ---
 
-*Préambule : ceci est toujours mon avis, mon mien à moi. Encore une fois, je n’arrive pas aux mêmes conclusions que d’autres de mes contemporains, doooonc... c’est que je dois me tromper quelque part. Des commentaires constructifs ? Je vous promets que je vous lirai :)*
- ## Le malaise, mon malaise
+{{< callout type="tip" text="Ceci est un post de la catégorie 'fange nombriliste', ou j'essaye d'explorer des thématiques politiques qui m'animent. Toute critique (constructive) est la bienvenue." >}}
+
+
+## Le malaise, mon malaise
 
 Au moment où j’écris ce billet, j’ai 34 ans, et je suis titulaire d’un doctorat en chimie (enfin, "en sciences") depuis 5 ans. Je suis également post-doctorant, toujours en chimie, donc je connais et pratique la méthode scientifique (dans sa version la plus scolaire) du mieux que je peux. Je pense toujours qu’il s’agit d’une méthode qui a ses qualités pour produire des modèles et des prédictions robustes, même si la réalité est bien plus complexe que n’importe quel modèle ([« tous les modèles sont faux, mais certains sont utiles »](https://en.wikipedia.org/wiki/All_models_are_wrong) est probablement la phrase qui résume le mieux ma vision actuelle de la méthode scientifique et de ce qu’elle produit). J’ai par ailleurs énormément de griefs envers la manière dont le monde scientifique fonctionne (prépondérance d’éditeurs privés, financements dictés par des intérêts politiques, précarité, etc.), mais je ne dirais pas que la méthode scientifique en est la cause.
 
