@@ -57,7 +57,7 @@ $$C_{dl} = \frac{d\sigma_M}{d\psi_0},$$
 
 where $\sigma_M$ is the surface charge density and $\psi_0$ is the electrode potential.
 
-## Continuum models for the EDL
+## Continuum models for the EDL: the basics
 
 We begin with the **one-dimensional Poisson equation**, which governs the electrostatic potential $\psi(x)$ at a distance $x$ from a flat electrode surface:
 
@@ -203,11 +203,13 @@ The Gouy–Chapman capacitance then takes the particularly simple form
 
 $$C_{\mathrm{GC}}=\varepsilon\kappa\cosh\left(\frac{\beta ze\psi_0}{2}\right).$$
 
-The $\cosh$ term tells us something interesting: unlike the Helmholtz capacitance, the Gouy–Chapman capacitance is not constant. It increases with the magnitude of the electrode potential. In fact, we will see below that it has a characteristic parabola-like shape.
+The $\cosh$ term tells us something interesting: unlike the Helmholtz capacitance, the Gouy–Chapman capacitance is not constant. 
+It increases with the magnitude of the electrode potential. In fact, we will see below that it has a characteristic parabola-like shape.
 
 The characteristic length scale is therefore the [**Debye length**](https://en.wikipedia.org/wiki/Debye_length#In_an_electrolyte_solution), $\lambda_D=1/\kappa$.
 Note that it is inversely proportional to the square root of the concentration, $n_0$, which means that when $n_0\to\infty$, $\lambda_D\to0$.
-This is, obviously, unphysical. There is, however, an interesting limiting case. When the surface potential is small, such that $\beta ze\psi_0\ll1$, we can use the approximation $\sinh(y)\approx y$. The electric-field equation then becomes
+This is, obviously, unphysical. There is, however, an interesting limiting case. 
+When the surface potential is small, such that $\beta ze\psi_0\ll1$, we can use the approximation $\sinh(y)\approx y$. The electric-field equation then becomes
 
 $$\frac{d\psi}{dx}\approx-\kappa\psi.$$
 
@@ -216,9 +218,24 @@ Integrating from the electrode surface, where $x=0$ and $\psi=\psi_0$, gives an 
 $$\psi(x)=\psi_0e^{-\kappa x}.$$
 
 In the linearized Gouy–Chapman model, the electrostatic potential is screened exponentially over roughly $\lambda_D$.
+Finally, given that $e^{x}\approx 1 +x$,
+
+$$n_\pm(x)=n_0\exp[\mp\beta z_ie\psi(x)]\approx n_0\left[1\mp z_ie\psi(x)\right].$$
 
 This is already quite different from the Helmholtz picture. Instead of a sharp, compact layer of counter-ions at a fixed distance, the Gouy–Chapman model gives us a **diffuse layer**, in which the ionic concentrations gradually return to their bulk values as we move away from the electrode.
 
+### Numerical results
+ 
+Before turning to more "realistic" (will see what this means) models, let's have a look at the evolution of $\psi(x)$ and $n_i(x)$ in the Gouy-Chapman model.
+Notice that no solution for $\psi(x)$ was provided, unless in the limiting case, simply because it is difficult to derive an anyltical expression in the general-case.
+Thus, [this script](https://github.com/pierre-24/blog.pierrebeaujean.net/content/posts/0008-edl/plot_GC.py) will solve it numerically, and compare the solution with the solution obtained in the limiting case.
+Note that it is recommended to solve a problem expressed in a reduced set of unit, namely
+
+$$\frac{d\tilde\psi(\tilde x)}{dx^2} = \sinh[\tilde\psi(\tilde x)],$$
+
+where $\tilde x = \kappa x$ and $\tilde\psi = ze\beta\psi$.
+
+## Improved models
 
 ### The Stern Model
 
