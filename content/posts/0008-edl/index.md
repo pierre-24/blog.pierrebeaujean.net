@@ -208,7 +208,7 @@ It increases with the magnitude of the electrode potential. In fact, we will see
 
 The characteristic length scale is therefore the [**Debye length**](https://en.wikipedia.org/wiki/Debye_length#In_an_electrolyte_solution), $\lambda_D=1/\kappa$.
 Note that it is inversely proportional to the square root of the concentration, $n_0$, which means that when $n_0\to\infty$, $\lambda_D\to0$.
-This is, obviously, unphysical. There is, however, an interesting limiting case. 
+This is, obviously, unphysical. There is, however, an interesting limiting case, called the Debye-Hückel limit. 
 When the surface potential is small, such that $\beta ze\psi_0\ll1$, we can use the approximation $\sinh(y)\approx y$. The electric-field equation then becomes
 
 $$\frac{d\psi}{dx}\approx-\kappa\psi.$$
@@ -225,15 +225,39 @@ $$n_\pm(x)=n_0\exp[\mp\beta z_ie\psi(x)]\approx n_0\left[1\mp z_ie\psi(x)\right]
 This is already quite different from the Helmholtz picture. Instead of a sharp, compact layer of counter-ions at a fixed distance, the Gouy–Chapman model gives us a **diffuse layer**, in which the ionic concentrations gradually return to their bulk values as we move away from the electrode.
 
 ### Numerical results
- 
-Before turning to more "realistic" (will see what this means) models, let's have a look at the evolution of $\psi(x)$ and $n_i(x)$ in the Gouy-Chapman model.
-Notice that no solution for $\psi(x)$ was provided, unless in the limiting case, simply because it is difficult to derive an anyltical expression in the general-case.
-Thus, [this script](https://github.com/pierre-24/blog.pierrebeaujean.net/content/posts/0008-edl/plot_GC.py) will solve it numerically, and compare the solution with the solution obtained in the limiting case.
-Note that it is recommended to solve a problem expressed in a reduced set of unit, namely
 
-$$\frac{d\tilde\psi(\tilde x)}{dx^2} = \sinh[\tilde\psi(\tilde x)],$$
+Before turning to more "realistic" models (we'll see what this means), let's have a look at the evolution of $\psi(x)$ and $n_i(x)$ in the Gouy–Chapman model.
 
-where $\tilde x = \kappa x$ and $\tilde\psi = ze\beta\psi$.
+Notice that, apart from the limiting case, we never obtained an explicit analytical expression for $\psi(x)$. 
+This is simply because the Poisson–Boltzmann equation is nonlinear and does not have a simple closed-form solution in the general case.
+
+So, [this script](https://github.com/pierre-24/blog.pierrebeaujean.net/tree/master/content/posts/0008-edl/plot_GC.py) solves the equation numerically and compares the result with the analytical solution obtained in the Debye–Hückel limit.
+For numerical purposes, it is convenient to rewrite the Poisson–Boltzmann equation in terms of dimensionless variables. 
+Defining $\tilde{x}=\kappa x$ and $\tilde{\psi}=ze\beta\psi$, gives
+
+$$\frac{d^2\tilde{\psi}}{d\tilde{x}^2}=\sinh(\tilde{\psi}).$$
+
+The result, using $\psi_0=50$ mV and $n_0=0.01$ M in water ($\varepsilon_r=78.4$), is shown below:
+
+![](./GC.svg)
+
+The top panel shows the evolution of the electrostatic potential. 
+The Debye–Hückel approximation (dashed line) follows the numerical solution quite closely, but the two are not identical, with the largest deviations appearing at intermediate distances from the electrode.
+Under these conditions, the Debye length is approximately $\lambda_D\approx3$ nm. This gives a useful estimate of the spatial extent of the diffuse layer: the potential decays exponentially, and lose half its value, over a characteristic length of roughly one Debye length. 
+At a few Debye lengths from the electrode, the potential is therefore already very close to its bulk value.
+
+The bottom panel shows the evolution of the anion and cation concentrations. 
+Since the electrode is positively charged, anions are attracted towards the surface, while cations are depleted. 
+In the Gouy–Chapman model, the ions are treated as point charges, so the counter-ion concentration actually diverges as the electrode surface is approached. 
+This is, of course, unphysical and is one of the main limitations of the model.
+Further away from the electrode, both concentrations gradually return to their bulk value, $n_0$. 
+Again, the Debye–Hückel approximation follows the full numerical solution reasonably well away from the electrode. 
+However, because it relies on a linearization of the Boltzmann distribution, it can predict unphysical concentrations near a strongly charged electrode, including negative concentrations for the depleted species.
+
+This is a nice illustration of both the usefulness and the limitations of the Gouy–Chapman model. 
+The continuum description captures the overall structure of the diffuse layer remarkably well, but its treatment of ions as point charges eventually breaks down precisely where the interfacial effects become strongest.
+
+What can we do about that?
 
 ## Improved models
 
@@ -337,6 +361,9 @@ In this limit, most of the potential drop occurs across the compact layer, and t
 
 In 1947, David C. Grahame refined the Stern model to account for the fact that some ions can lose part of their solvation shell and adsorb specifically onto the electrode surface, while others remain fully solvated. This led to a distinction between two planes within the compact part of the EDL: the **Inner Helmholtz Plane (IHP)** and the **Outer Helmholtz Plane (OHP)**.
 
+
+![](EDL-Grahame.svg)
+
 The interface is divided along the spatial coordinate $x$, taken perpendicular to the electrode surface at $x=0$.
 
 1. **Inner Helmholtz Plane (IHP), at $x=x_{\mathrm{IHP}}$**.
@@ -353,11 +380,8 @@ The interface is divided along the spatial coordinate $x$, taken perpendicular t
 
    Beyond the OHP, ions are free to distribute themselves according to the electrostatic potential. This region is described by the Gouy–Chapman Poisson–Boltzmann model and extends continuously into the bulk solution.
 
-The resulting picture is therefore
-
-$$\text{metal}\quad\longrightarrow\quad\text{IHP}\quad\longrightarrow\quad\text{OHP}\quad\longrightarrow\quad\text{diffuse layer}\quad\longrightarrow\quad\text{bulk}.$$
-
-The total charge of the interface must vanish. If $\sigma_M$ is the charge density on the metal, $\sigma_{\mathrm{IHP}}$ is the charge density associated with specifically adsorbed ions, and $\sigma_d$ is the integrated charge density of the diffuse layer, electroneutrality requires
+The total charge of the interface must vanish. 
+If $\sigma_M$ is the charge density on the metal, $\sigma_{\mathrm{IHP}}$ is the charge density associated with specifically adsorbed ions, and $\sigma_d$ is the integrated charge density of the diffuse layer, electroneutrality requires
 
 $$\sigma_M+\sigma_{\mathrm{IHP}}+\sigma_d=0.$$
 
@@ -429,7 +453,176 @@ Unlike the simple Helmholtz capacitance of the Stern model, however, the compact
 
 The important point is that the EDL is no longer just a question of electrostatics. Once we distinguish the IHP from the OHP, we are implicitly acknowledging that **ion–surface interactions, solvation, and specific adsorption** can affect the structure of the interface.
 
+### Numerical result break
 
+Let's see how all of this looks in practice.
 
+To numerically simulate the Grahame model, we need to specify how the compact layer responds to the potential drop between the electrode and the OHP. Rather than explicitly modeling the microscopic structure of the IHP and the solvent, we can describe this response phenomenologically through an **integral capacitance** of the compact layer, which we will denote by $K_{\mathrm{comp}}$.
+
+There is an important distinction here. We cannot simply prescribe an arbitrary differential capacitance curve and insert it into the charge-balance equations. The charge stored in the compact layer must first be defined from its integral capacitance:
+
+$$\sigma_{\mathrm{comp}}=K_{\mathrm{comp}}(\Delta\psi)\Delta\psi,$$
+
+where
+
+$$\Delta\psi=\psi_0-\psi_{\mathrm{OHP}}$$
+
+is the potential drop across the compact layer, from the metal surface to the OHP.
+
+The corresponding **differential compact-layer capacitance** is then obtained by differentiating the stored charge with respect to this potential drop:
+
+$$C_{\mathrm{comp}}=\frac{d\sigma_{\mathrm{comp}}}{d\Delta\psi}=K_{\mathrm{comp}}(\Delta\psi)+\Delta\psi\frac{dK_{\mathrm{comp}}}{d\Delta\psi}.$$
+
+For this numerical example, I will use the following phenomenological form for the integral capacitance:
+
+$$K_{\mathrm{comp}}(\Delta\psi)=K_{\mathrm{base}}+K_{\mathrm{asym}}(\Delta\psi)+K_{\mathrm{hump}}(\Delta\psi).$$
+
+Using parameters expressed in $\mu\mathrm{F/cm^2}$, for standard electrochemical readability, this becomes
+
+$$K_{\mathrm{comp}}(\Delta\psi)=25.0+4.0\tanh(4.0\Delta\psi)+12.0\exp\left[-\left(\frac{\Delta\psi-0.15}{0.10}\right)^2\right].$$
+
+Here, $\Delta\psi$ is expressed in volts.
+
+The three terms have distinct physical interpretations:
+
+* **The baseline term, $K_{\mathrm{base}}$:** A constant value of $25.0\ \mu\mathrm{F/cm^2}$. 
+  This represents the baseline dielectric response of the compact interfacial region, including the strongly confined solvent layer between the electrode and the solvated ions.
+* **The solvent asymmetry term, $K_{\mathrm{asym}}$:** The term $4.0\tanh(4.0\Delta\psi)$ introduces a smooth asymmetry around the point of zero charge. 
+  It is a simple phenomenological way of representing the fact that the structure and orientation of interfacial solvent molecules can depend on the sign of the electrode potential. In particular, water dipoles can adopt different configurations depending on whether the surface is positively or negatively charged, changing the effective dielectric response of the compact layer.
+* **The specific-adsorption hump, $K_{\mathrm{hump}}$:** The Gaussian term $12.0\exp[-((\Delta\psi-0.15)/0.10)^2]$ introduces a localized enhancement centered at $\Delta\psi=+0.15$ V, with a characteristic width of $0.10$ V. 
+  It phenomenologically represents the enhanced charge-storage response associated with a specific adsorption process occurring over a limited potential range. For example, anions such as chloride or bromide can become specifically adsorbed at positive potentials, accompanied by partial desolvation and strong interaction with the electrode surface. 
+  The Gaussian is not meant to be a microscopic adsorption model; it simply provides a convenient way of introducing a localized adsorption feature into the compact-layer response.
+
+The following graph, obtained with [this script](https://github.com/pierre-24/blog.pierrebeaujean.net/tree/master/content/posts/0008-edl/plot_capa.py), shows the resulting differential capacitance as a function of the electrode potential relative to the point of zero charge.
+
+![](capa.svg)
+
+The different models illustrate progressively more elaborate descriptions of the EDL.
+
+The **Helmholtz model** gives a constant capacitance: by construction, the compact layer behaves as a simple dielectric capacitor with a fixed thickness and dielectric permittivity.
+
+The **Gouy–Chapman model**, on the other hand, predicts a minimum capacitance around zero potential and an increasingly large capacitance at higher potentials. This is a direct consequence of the diffuse layer: at low surface charge, the counter-ion cloud extends over a relatively large distance, whereas increasing the surface potential compresses the diffuse layer and increases its capacitance. At sufficiently high potentials, the Gouy–Chapman capacitance diverges because the model treats ions as point charges.
+
+The **Stern model** remedies this divergence by placing a compact layer in series with the diffuse layer. 
+Since the compact-layer capacitance remains finite, it limits the total capacitance at high potentials. 
+The resulting curve retains the characteristic minimum around zero potential but approaches a finite value at large $|\psi_0|$, given by the Helmholtz model.
+
+The **Grahame model** adds another layer of realism by allowing the compact-layer response itself to depend on the potential. 
+In this phenomenological example, the solvent asymmetry makes the curve asymmetric, while the specific-adsorption term produces a pronounced hump at positive potentials.
+The important point is that this last feature does not come from the diffuse layer at all. It is introduced through the potential-dependent response of the compact layer, and therefore provides a simple way of representing the effects of solvent reorganization and specific adsorption that are absent from the simpler continuum models.
+
+Of course, the particular functional form used here is deliberately phenomenological. The Gaussian hump, for instance, is not a microscopic theory of adsorption. It is simply a convenient way to illustrate how additional interfacial physics can be incorporated into the Grahame framework—and how that physics can leave a clear signature in the differential capacitance.
+
+## Volume exclusion: the Bikerman model
+
+So, in all these models, the diffuse layer is still treated using Gouy–Chapman.
+And this model has one particularly obvious problem: it treats ions as point charges.
+As we saw in the numerical example, this means that the counter-ion concentration can diverge as the electrode surface is approached.
+
+Clearly, real ions cannot be compressed indefinitely. At some point, their finite size must matter.
+A simple way to account for this is to introduce **volume exclusion**. 
+One of the simplest models doing so is the **Bikerman model**, which treats the electrolyte as a lattice gas: the solution is divided into small volume elements, each of which can be occupied by at most one ion.
+The idea is simple. 
+Instead of allowing the local concentration to increase without limit according to the Boltzmann distribution, we impose a maximum concentration corresponding to the available volume.
+
+For simplicity, let's consider a symmetric $z:z$ electrolyte in which cations and anions have the same molecular volume $v$. In the bulk, each ionic species has concentration $n_0$, so the bulk volume fraction occupied by ions is
+
+$$\phi_0=2vn_0.$$
+
+The remaining fraction, $1-\phi_0$, is occupied by solvent.
+
+For a lattice gas, the chemical potential contains not only the electrostatic contribution but also an entropic contribution associated with the finite number of available sites.
+At equilibrium, the electrochemical potential of each ionic species must be constant. 
+This gives
+
+$$\frac{n_i(x)}{1-v[n_+(x)+n_-(x)]}=\frac{n_0}{1-2vn_0}\exp(-\beta z_i e\psi(x)).$$
+
+The denominator is the important new ingredient. It accounts for the fraction of volume that remains available to the ions.
+
+For the symmetric electrolyte, using once again the dimensionless potential $\tilde{\psi}=\beta ze\psi$, we can easily solve the two equations simultaneously to obtain
+
+$$n_\pm(x)=\frac{n_0e^{\mp\tilde{\psi}}}{1+2vn_0[\cosh(\tilde{\psi})-1]}.$$
+
+Compare this with the ordinary Gouy–Chapman result: the exponential Boltzmann factor is still there, but it is now divided by a common denominator. 
+As the potential becomes large, this denominator grows as well and prevents the concentrations from diverging.
+
+The local charge density consequently becomes
+
+$$\rho(x)=ze[n_+(x)-n_-(x)]=-\frac{2zen_0\sinh(\tilde{\psi})}{1+2vn_0[\cosh(\tilde{\psi})-1]}.$$
+
+Substituting this expression into Poisson's equation gives the **modified Poisson–Boltzmann equation**:
+
+$$\frac{d^2\psi}{dx^2}=\frac{2zen_0}{\varepsilon}\frac{\sinh(\beta ze\psi)}{1+2vn_0[\cosh(\beta ze\psi)-1]}.$$
+
+This looks rather more complicated than the usual Poisson–Boltzmann equation, but, as for the Gouy–Chapman model, it can still be integrated once analytically.
+After following the same steps as before and applying the bulk boundary conditions, the surface charge is obtained as
+
+$$\sigma_M=\operatorname{sgn}(\psi_0)\sqrt{\frac{2\varepsilon}{\beta v}\ln\left[1+2vn_0\left(\cosh(\beta ze\psi_0)-1\right)\right]}.$$
+
+This expression is already enough to see the main effect of volume exclusion.
+
+At low surface potentials, the model should recover Gouy–Chapman. 
+Indeed, if the ionic volume fraction remains sufficiently small that
+
+$$2vn_0[\cosh(\tilde{\psi}_0)-1]\ll1,$$
+
+we can use $\ln(1+y)\approx y$, giving
+
+$$\sigma_M\approx\operatorname{sgn}(\psi_0)\sqrt{4\varepsilon n_0k_BT[\cosh(\tilde{\psi}_0)-1]}.$$
+
+Using $\cosh(\tilde{\psi}_0)-1=2\sinh^2(\tilde{\psi}_0/2)$, this becomes
+
+$$\sigma_M\approx\sqrt{8\varepsilon n_0k_BT}\sinh\left(\frac{\tilde{\psi}_0}{2}\right),$$
+
+for the corresponding sign of $\psi_0$. 
+We therefore recover exactly the Gouy–Chapman result.
+
+So the Bikerman model does not replace Gouy–Chapman everywhere. 
+It modifies it precisely where the finite size of the ions becomes important.
+
+And the difference becomes striking at large $|\psi_0|$.
+
+In Gouy–Chapman, the counter-ion concentration grows exponentially with the surface potential. In the Bikerman model, however, the denominator grows at the same time. The concentration therefore approaches a finite limit instead of diverging.
+
+For example, for a strongly positive electrode, the anion concentration approaches
+
+$$n_-(x)\rightarrow\frac{1}{v},$$
+
+while the cation concentration tends towards zero.
+
+The value $1/v$ has a simple interpretation: it is the **maximum concentration allowed by the lattice model**. Once essentially all available volume is occupied by counter-ions, increasing the potential cannot compress them any further.
+
+This also has an important consequence for the differential capacitance.
+
+The differential capacitance follows directly by differentiating the surface charge with respect to the electrode potential, $C_{\mathrm{B}}=d\sigma_M/d\psi_0$. 
+Starting from the Bikerman surface-charge relation above, this gives
+
+$$C_{\mathrm B}=\varepsilon\kappa\sinh(\tilde{\psi}_0)\frac{\sqrt{vn_0}}{\left(1+2vn_0[\cosh(\tilde{\psi}_0)-1]\right)\sqrt{\ln\left[1+2vn_0[\cosh(\tilde{\psi}_0)-1]\right]}}.$$
+
+In the limit $v\rightarrow0$, this reduces to the Gouy–Chapman differential capacitance (but you have to be careful in the derivation).
+
+At large potentials, unlike the Gouy–Chapman model, the capacitance no longer diverges because the counter-ion concentration is limited by the finite available volume.
+The counter-ion layer eventually reaches a crowded, nearly saturated state, and the capacitance no longer grows exponentially.
+
+A rough estimate for the onset of steric effects is therefore obtained from
+
+$$2vn_0[\cosh(\tilde{\psi}_0)-1]\sim1.$$
+
+For a dilute electrolyte, this corresponds approximately to $\cosh(\tilde{\psi}_0)\sim1/(vn_0)$, which gives a characteristic potential of roughly
+
+$$|\psi_0|_{\mathrm{steric}}\sim\frac{1}{\beta ze}\ln\left(\frac{1}{vn_0}\right).$$
+
+Beyond this regime, ion crowding becomes important and the Bikerman capacitance can reach a maximum before decreasing at higher potentials, in contrast to the unbounded growth predicted by Gouy–Chapman.
+
+It is demonstrated in this image, obtained using [this script](https://github.com/pierre-24/blog.pierrebeaujean.net/tree/master/content/posts/0008-edl/plot_bikerman.py):
+
+![](bikerman.svg)
+
+Of course, the Bikerman model is still a continuum model. 
+It introduces finite ion size in a phenomenological way, but it does not explicitly describe molecular packing, solvent structure, ion–ion correlations, or specific adsorption.
+
+In other words, we have fixed one problem with Gouy–Chapman, but not all of them.
+
+And that is becoming a recurring theme with EDL models: each additional piece of physics makes the model more realistic, but also introduces another set of assumptions.
 
 
