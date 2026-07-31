@@ -619,10 +619,33 @@ It is demonstrated in this image, obtained using [this script](https://github.co
 ![](bikerman.svg)
 
 Of course, the Bikerman model is still a continuum model. 
-It introduces finite ion size in a phenomenological way, but it does not explicitly describe molecular packing, solvent structure, ion–ion correlations, or specific adsorption.
+It introduces finite ion size in a phenomenological way, but it does not explicitly describe molecular packing, solvent structure, ion–ion correlations, or specific adsorption. 
+In particular, the asymmetry between the adsorption of positive and negative ions, which can be introduced through *ad hoc* expressions in the Grahame model, is not captured by this basic version of the Bikerman model.
 
-In other words, we have fixed one problem with Gouy–Chapman, but not all of them.
+In other words, we have fixed one of the problems of Gouy–Chapman, but certainly not all of them.
 
-And that is becoming a recurring theme with EDL models: each additional piece of physics makes the model more realistic, but also introduces another set of assumptions.
+## Conclusion
 
+And this is becoming a recurring theme with EDL models: each additional piece of physics makes the model more realistic, but also introduces another set of assumptions.
+
+As far as I can tell, one natural direction is to extend the Bikerman model by introducing ion-specific sizes, adsorption, and other interactions. 
+The Bikerman model successfully addresses the unphysical crowding of point-like ions in the diffuse layer by introducing volume exclusion. 
+But when we want to describe specific adsorption and the resulting structure of the compact layer, we need more elaborate models, such as adsorption isotherms that account for localized ion–surface interactions and, potentially, lateral interactions between adsorbed ions.
+
+Another route is to abandon the relatively simple continuum description and formulate the problem in terms of an explicit free-energy functional that accounts for intermolecular interactions. 
+This leads us towards **classical density functional theory (cDFT)**, which provides a more microscopic description of the structure of the EDL while remaining, in a sense, a continuum theory of the underlying molecular densities.
+
+Of course, this comes at the cost of yet another layer of complexity and assumptions. There is probably no single "correct" EDL model: the appropriate level of description depends on which physical effects one wants to capture and, just as importantly, which ones one is willing to neglect.
+
+----
+
+The scripts for this post, including the code used to generate the figures, are available [here](https://github.com/pierre-24/blog.pierrebeaujean.net/tree/master/content/posts/0008-eld).
+
+**Sources:**
+
+* Wikipedia, ["Double layer"](https://en.wikipedia.org/wiki/Double_layer_%28surface_science%29), and references therein.
+* Wu, J. Understanding the Electric Double-Layer Structure, Capacitance, and Charging Dynamics. *Chem. Rev.* **2022**, *122* (12), 10821–10859. https://doi.org/10.1021/acs.chemrev.2c00097.
+* Borukhov, I.; Andelman, D.; Orland, H. Steric Effects in Electrolytes: A Modified Poisson–Boltzmann Equation. *Phys. Rev. Lett.* **1997**, *79* (3), 435–438. https://doi.org/10.1103/PhysRevLett.79.435.
+* Wang, X.-P.; Liu, K.; Wu, J. Demystifying the Stern Layer at a Metal–Electrolyte Interface: Local Dielectric Constant, Specific Ion Adsorption, and Partial Charge Transfer. *J. Chem. Phys.* **2021**, *154* (12), 124701. https://doi.org/10.1063/5.0043963.
+* Doronin, S. V.; Budkov, Y. A. Electric Double Layer: From Classical Stern-like Models to Advanced Continuum Theories. *Curr. Opin. Electrochem.* **2026**, *57*, 101853. https://doi.org/10.1016/j.coelec.2026.101853.
 
