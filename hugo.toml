@@ -4,7 +4,7 @@ title = "Pierre Beaujean's blog"
 theme = 'archie'
 copyright = "© Pierre Beaujean"
 
-paginate = 5
+paginate = 7
 
 # Code Highlight
 pygmentsstyle = "monokai"
@@ -13,7 +13,7 @@ pygmentscodefencesguesssyntax = true
 
 [params]
 mode="toggle" # color-mode → light,dark,toggle or auto
-subtitle = "Quantum Chemistry, programming, random thoughts, & stuffs. *Parfois en français*."
+subtitle = "Quantum Chemistry, programming, random thoughts, & stuffs. *Des fois en français*."
 katex = true # enable KaTeX support
 
 
@@ -21,12 +21,6 @@ katex = true # enable KaTeX support
 name = "GitHub"
 icon = "github"
 url = "https://github.com/pierre-24/"
-
-[[params.social]]
-name = "Twitter"
-icon = "twitter"
-url = "https://twitter.com/PierreBeaujean"
-
 
 [[menu.main]]
 name = "All posts"
