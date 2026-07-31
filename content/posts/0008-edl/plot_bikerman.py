@@ -27,7 +27,8 @@ Phi = 2 * v * n0 # Packing parameter Phi_0 (total volume fraction of ions in the
 psi_0_vec = np.linspace(-0.6, 0.6, 1000)
 u_vec = psi_0_vec / V_T
 
-print(k_B * T / (z * e) * np.log(1/(v*n0)))
+invv = 1/(v*n0)
+print(k_B * T / (z * e) * np.log(invv + np.sqrt(invv**2-1)))
 
 # Gouy-Chapman Capacitance
 C_gouy_chapman = (C_GC_0 * np.cosh(u_vec / 2)) * 1e2  # Convert to uF/cm^2
