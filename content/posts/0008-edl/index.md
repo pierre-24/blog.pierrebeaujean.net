@@ -1,7 +1,6 @@
 ---
 title: "On the electrical double layer (EDL)"
-date: 2026-07-29T20:46:19+02:00
-draft: true
+date: 2026-07-31T11:55:00+02:00
 tags: 
 - lang:en
 - batteries
